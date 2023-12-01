@@ -1,4 +1,5 @@
 import { Container } from '@/components/Container'
+import { Button } from './ui/Button'
 
 export function Hero() {
   return (
@@ -17,9 +18,7 @@ export function Hero() {
             visitors, and you’ll learn how to deploy them without ever being detected.
           </p>
         </div>
-        <button href="#" className="mt-10 w-full sm:hidden">
-          Get your tickets
-        </button>
+        <Button className="mt-10 w-full sm:hidden">Get your tickets</Button>
         <dl className="mt-10 grid grid-cols-2 gap-x-10 gap-y-6 sm:mt-16 sm:gap-x-16 sm:gap-y-10 sm:text-center lg:auto-cols-auto lg:grid-flow-col lg:grid-cols-none lg:justify-start lg:text-left">
           {[
             ['Speakers', '18'],

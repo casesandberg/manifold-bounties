@@ -3,6 +3,7 @@ import { DM_Sans, Inter } from 'next/font/google'
 import clsx from 'clsx'
 
 import './globals.css'
+import { ThemeProvider } from '@/components/ThemeProvider'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -22,7 +23,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={clsx('h-full bg-white antialiased', inter.variable)}>
       <body className="flex min-h-full">
-        <div className="flex w-full flex-col">{children}</div>
+        <div className="flex w-full flex-col">
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+            {children}
+          </ThemeProvider>
+        </div>
       </body>
     </html>
   )

@@ -1,5 +1,7 @@
 import { Container } from '@/components/Container'
 import { Logo } from '@/components/Logo'
+import { Button } from './ui/Button'
+import { ThemeModeToggle } from './ThemeModeToggle'
 
 export function Header() {
   return (
@@ -16,8 +18,9 @@ export function Header() {
             <p>Los Angeles, CA</p>
           </div>
         </div>
-        <div className="hidden sm:mt-10 sm:flex lg:mt-0 lg:grow lg:basis-0 lg:justify-end">
-          <button href="#">Get your tickets</button>
+        <div className="hidden flex-row gap-4 grow sm:mt-10 sm:flex lg:mt-0 lg:grow lg:basis-0 lg:justify-end">
+          <ThemeModeToggle />
+          <Button>Get your tickets</Button>
         </div>
       </Container>
     </header>

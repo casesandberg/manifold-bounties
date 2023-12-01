@@ -1,5 +1,6 @@
 import { Container } from '@/components/Container'
 import { Layout } from '@/components/Layout'
+import { Button } from '@/components/ui/Button'
 
 export default function NotFound() {
   return (
@@ -13,9 +14,7 @@ export default function NotFound() {
           <p className="mt-4 text-lg tracking-tight text-blue-900">
             Sorry, we couldn’t find the page you’re looking for.
           </p>
-          <button href="/" className="mt-8">
-            Go back home
-          </button>
+          <Button className="mt-8">Go back home</Button>
         </Container>
       </div>
     </Layout>
