@@ -1,10 +1,7 @@
 import { getBounties } from '@/lib/manifold'
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from './ui/table'
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from './ui/Table'
 import { TriangleUpIcon } from '@radix-ui/react-icons'
-import { Badge } from './ui/badge'
 import { Button } from './ui/Button'
-import { Avatar } from './ui/avatar'
-import { AvatarFallback, AvatarImage } from '@radix-ui/react-avatar'
 import { UserAvatar } from './UserAvatar'
 
 export async function BountiesTable() {
