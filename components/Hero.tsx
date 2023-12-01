@@ -8,7 +8,7 @@ export function Hero() {
         <h1 className="font-display text-5xl font-bold tracking-tighter text-blue-600 sm:text-7xl">
           <span className="sr-only">DeceptiConf - </span>A design conference for the dark side.
         </h1>
-        <div className="mt-6 space-y-6 font-display text-2xl tracking-tight text-blue-900">
+        <div className="font-display mt-6 space-y-6 text-2xl tracking-tight text-blue-900">
           <p>
             The next generation of web users are tech-savvy and suspicious. They know how to use dev tools, they can
             detect a phishing scam from a mile away, and they certainly aren’t accepting any checks from Western Union.
