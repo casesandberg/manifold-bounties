@@ -5,20 +5,16 @@ export function Hero() {
   return (
     <div className="relative py-20 sm:pb-24 sm:pt-36">
       <Container className="relative">
-        <h1 className="font-display text-5xl font-bold tracking-tighter text-blue-600 sm:text-7xl">
-          <span className="sr-only">DeceptiConf - </span>A design conference for the dark side.
+        <h1 className="font-display text-5xl font-bold tracking-tighter text-primary sm:text-7xl">
+          <span className="sr-only">Manifold Community Bounties - </span>Building Manifold Together
         </h1>
-        <div className="font-display mt-6 space-y-6 text-2xl tracking-tight text-blue-900">
+        <div className="font-display mt-6 space-y-6 text-2xl tracking-tight text-muted-foreground">
           <p>
-            The next generation of web users are tech-savvy and suspicious. They know how to use dev tools, they can
-            detect a phishing scam from a mile away, and they certainly aren’t accepting any checks from Western Union.
-          </p>
-          <p>
-            At DeceptiConf you’ll learn about the latest dark patterns being developed to trick even the smartest
-            visitors, and you’ll learn how to deploy them without ever being detected.
+            Add Mana to bounties that you want to see created. The higher the bounty, the more likely someone from the
+            community will build it!
           </p>
         </div>
-        <Button className="mt-10 w-full sm:hidden">Get your tickets</Button>
+        {/* <Button className="mt-10 w-full sm:hidden">Get your tickets</Button>
         <dl className="mt-10 grid grid-cols-2 gap-x-10 gap-y-6 sm:mt-16 sm:gap-x-16 sm:gap-y-10 sm:text-center lg:auto-cols-auto lg:grid-flow-col lg:grid-cols-none lg:justify-start lg:text-left">
           {[
             ['Speakers', '18'],
@@ -27,11 +23,11 @@ export function Hero() {
             ['Location', 'Los Angeles'],
           ].map(([name, value]) => (
             <div key={name}>
-              <dt className="font-mono text-sm text-blue-600">{name}</dt>
-              <dd className="mt-0.5 text-2xl font-semibold tracking-tight text-blue-900">{value}</dd>
+              <dt className="font-mono text-sm text-primary">{name}</dt>
+              <dd className="mt-0.5 text-2xl font-semibold tracking-tight text-muted-foreground">{value}</dd>
             </div>
           ))}
-        </dl>
+        </dl> */}
       </Container>
     </div>
   )
