@@ -37,7 +37,7 @@ export async function BountiesTable() {
                     {totalBounty} <TriangleUpIcon />
                   </Button>
                 </TableCell>
-                <TableCell className="font-medium">{question}</TableCell>
+                <TableCell className="text-base font-medium">{question}</TableCell>
                 <TableCell className="text-muted-foreground">
                   <a
                     className="flex flex-row items-center gap-2"

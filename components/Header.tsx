@@ -1,8 +1,6 @@
 import { Container } from '@/components/Container'
 import { Logo } from '@/components/Logo'
 import { Button } from './ui/Button'
-import { ThemeModeToggle } from './ThemeModeToggle'
-import { MainNav } from './MainNav'
 
 export function Header() {
   return (
@@ -15,8 +13,9 @@ export function Header() {
         </div>
 
         <div className="hidden grow flex-row justify-end gap-4 sm:flex">
-          <ThemeModeToggle />
-          <Button variant="ghost">Login with Manifold</Button>
+          <Button variant="outline" size="sm">
+            Login with Manifold
+          </Button>
         </div>
       </Container>
     </header>

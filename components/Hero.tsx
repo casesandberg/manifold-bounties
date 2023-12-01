@@ -10,8 +10,8 @@ export function Hero() {
         </h1>
         <div className="font-display mt-6 space-y-6 text-2xl tracking-tight text-muted-foreground">
           <p>
-            Add Mana to bounties that you want to see created. The higher the bounty, the more likely someone from the
-            community will build it!
+            Boost bounties with mana to prioritize their creation. The higher the bounty, the more it encourages our
+            community to bring it to life!
           </p>
         </div>
         {/* <Button className="mt-10 w-full sm:hidden">Get your tickets</Button>
