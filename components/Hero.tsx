@@ -6,7 +6,7 @@ export function Hero() {
     <div className="relative py-20 sm:pb-24 sm:pt-36">
       <Container className="relative">
         <h1 className="font-display text-5xl font-bold tracking-tighter text-primary sm:text-7xl">
-          <span className="sr-only">Manifold Community Bounties - </span>Building Manifold Together
+          <span className="sr-only">Manifold Community Bounties - </span>Build Manifold Together
         </h1>
         <div className="font-display mt-6 space-y-6 text-2xl tracking-tight text-muted-foreground">
           <p>

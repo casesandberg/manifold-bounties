@@ -11,7 +11,7 @@ export function Header() {
         <div className="flex flex-row gap-4">
           <Logo className="h-12 w-auto text-slate-900" />
 
-          <MainNav />
+          {/* <MainNav /> */}
         </div>
 
         <div className="hidden grow flex-row justify-end gap-4 sm:flex">
