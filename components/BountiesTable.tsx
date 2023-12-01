@@ -36,7 +36,7 @@ export async function BountiesTable() {
             return (
               <TableRow key={id}>
                 <TableCell className="flex justify-end">
-                  <Button variant="outline" size="xs" className="gap-2">
+                  <Button variant="outline" size="xs" className="gap-2 font-mono">
                     {totalBounty} <TriangleUpIcon />
                   </Button>
                 </TableCell>
