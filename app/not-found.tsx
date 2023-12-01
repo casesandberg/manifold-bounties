@@ -1,14 +1,12 @@
-import { Container } from "@/components/Container";
-import { Layout } from "@/components/Layout";
+import { Container } from '@/components/Container'
+import { Layout } from '@/components/Layout'
 
 export default function NotFound() {
   return (
     <Layout showFooter={false}>
       <div className="relative flex h-full items-center py-20 sm:py-36">
         <Container className="relative flex w-full flex-col items-center">
-          <p className="font-display text-2xl tracking-tight text-blue-900">
-            404
-          </p>
+          <p className="font-display text-2xl tracking-tight text-blue-900">404</p>
           <h1 className="mt-4 font-display text-4xl font-medium tracking-tighter text-blue-600 sm:text-5xl">
             Page not found
           </h1>
@@ -21,5 +19,5 @@ export default function NotFound() {
         </Container>
       </div>
     </Layout>
-  );
+  )
 }
