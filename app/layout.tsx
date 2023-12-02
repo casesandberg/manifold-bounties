@@ -4,6 +4,7 @@ import clsx from 'clsx'
 
 import './globals.css'
 import { ThemeProvider } from '@/components/ThemeProvider'
+import { Layout } from '@/components/Layout'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -25,7 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="flex min-h-full">
         <div className="flex w-full flex-col">
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-            {children}
+            <Layout>{children}</Layout>
           </ThemeProvider>
         </div>
       </body>

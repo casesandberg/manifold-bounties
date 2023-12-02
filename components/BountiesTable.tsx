@@ -3,6 +3,7 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import { TriangleUpIcon } from '@radix-ui/react-icons'
 import { Button } from './ui/Button'
 import { UserAvatar } from './UserAvatar'
+import Link from 'next/link'
 
 export async function BountiesTable() {
   const bounties = await getBounties()
@@ -29,6 +30,7 @@ export async function BountiesTable() {
             createdTime,
             totalBounty,
             uniqueBettorCount,
+            slug,
           }) => {
             return (
               <TableRow key={id}>
@@ -37,7 +39,9 @@ export async function BountiesTable() {
                     {totalBounty} <TriangleUpIcon />
                   </Button>
                 </TableCell>
-                <TableCell className="text-base font-medium">{question}</TableCell>
+                <TableCell className="text-base font-medium">
+                  <Link href={`/bounty/${slug}`}>{question} </Link>
+                </TableCell>
                 <TableCell className="text-muted-foreground">
                   <a
                     className="flex flex-row items-center gap-2"
