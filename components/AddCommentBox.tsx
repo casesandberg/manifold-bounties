@@ -8,13 +8,6 @@ import { Button } from './ui/Button'
 export function AddCommentBox() {
   const [activeTags, setActiveTags] = useState<string>('')
 
-  const handleToggle = (tag: string) => () => {
-    if (activeTags.includes(tag)) {
-      setActiveTags(activeTags.filter((t) => t !== tag))
-    } else {
-      setActiveTags([...activeTags, tag])
-    }
-  }
   return (
     <div>
       <div className="mb-2 flex flex-row gap-2">
