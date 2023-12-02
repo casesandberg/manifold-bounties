@@ -12,11 +12,9 @@ import {
 } from './ui/Dialog'
 import { Input } from './ui/Input'
 import { setAuthCookie } from '@/lib/auth'
-import { useRouter } from 'next/navigation'
 
 export function AuthDialog({ isVisible, onClose }: { isVisible: boolean; onClose: () => void }) {
   const [key, setKey] = useState('')
-  const router = useRouter()
 
   return (
     <Dialog open={isVisible} onOpenChange={onClose}>
@@ -40,7 +38,7 @@ export function AuthDialog({ isVisible, onClose }: { isVisible: boolean; onClose
         <DialogClose
           onClick={() => {
             setAuthCookie(key)
-            router.reload()
+            window?.location.reload()
           }}
         >
           Save Key
