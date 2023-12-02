@@ -12,7 +12,7 @@ import {
 } from './ui/Dialog'
 import { Input } from './ui/Input'
 import { setAuthCookie } from '@/lib/auth'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 
 export function AuthDialog({ isVisible, onClose }: { isVisible: boolean; onClose: () => void }) {
   const [key, setKey] = useState('')
