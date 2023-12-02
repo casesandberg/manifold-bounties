@@ -5,6 +5,8 @@ import clsx from 'clsx'
 import './globals.css'
 import { ThemeProvider } from '@/components/ThemeProvider'
 import { Layout } from '@/components/Layout'
+import { AuthContextProvider } from '@/lib/auth'
+import { Toaster } from '@/components/ui/Toaster'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -25,10 +27,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={clsx('h-full bg-white antialiased', inter.variable)}>
       <body className="flex min-h-full">
         <div className="flex w-full flex-col">
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-            <Layout>{children}</Layout>
-          </ThemeProvider>
+          <AuthContextProvider>
+            <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+              <Layout>{children}</Layout>
+            </ThemeProvider>
+          </AuthContextProvider>
         </div>
+
+        <Toaster />
       </body>
     </html>
   )

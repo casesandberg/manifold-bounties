@@ -1,24 +1,53 @@
-import { Bounty, Comment } from '@/lib/manifold'
+'use client'
+
+import { Bounty, Comment, addBounty } from '@/lib/manifold'
 import { Button } from './ui/Button'
 import { ClockIcon, TriangleUpIcon } from '@radix-ui/react-icons'
 import { UserAvatar } from './UserAvatar'
 import Tiptap from './Tiptap'
 import { AddCommentBox } from './AddCommentBox'
+import { useAuthToken } from '@/lib/auth'
+import { AuthDialog } from './AuthDialog'
+import { useState } from 'react'
+import { useToast } from './ui/use-toast'
 
 export type BountyViewProps = {
   bounty: Bounty
   comments: Array<Comment>
 }
 
-export async function BountyView({ bounty, comments }: BountyViewProps) {
+export function BountyView({ bounty, comments }: BountyViewProps) {
+  const [isVisible, setIsVisisble] = useState(false)
+  const authToken = useAuthToken()
   const filteredComments = comments.filter((comment) => !comment.replyToCommentId)
+  const { toast } = useToast()
+
+  const handleBounty = (amount: number) => () => {
+    if (!authToken) {
+      setIsVisisble(true)
+      return
+    }
+
+    addBounty(bounty.id, amount, authToken)
+      .then(() => {
+        toast({
+          title: 'Bounty added!',
+        })
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
 
   return (
     <article className="flex flex-row gap-8">
       <div className="w-[140px]">
-        <Button variant="outline" className="gap-2 font-mono">
-          {bounty.totalBounty} <TriangleUpIcon />
-        </Button>
+        <div className="flex flex-col">
+          <Button variant="outline" className="gap-2 font-mono" onClick={handleBounty(10)}>
+            {bounty.totalBounty} <TriangleUpIcon />
+          </Button>
+          <div className="bg-border py-1 text-center text-[9px] uppercase">Current Bounty</div>
+        </div>
       </div>
       <div>
         <h1 className="text-2xl font-medium">{bounty.question}</h1>
@@ -39,9 +68,13 @@ export async function BountyView({ bounty, comments }: BountyViewProps) {
         </div>
 
         <div className="mt-4 flex flex-row gap-4">
-          <Button>I NEED IT +250</Button>
-          <Button variant="outline">I WANT IT +100</Button>
-          <Button variant="outline">I LIKE IT +10</Button>
+          <Button onClick={handleBounty(250)}>I NEED IT +250</Button>
+          <Button variant="outline" onClick={handleBounty(100)}>
+            I WANT IT +100
+          </Button>
+          <Button variant="outline" onClick={handleBounty(10)}>
+            I LIKE IT +10
+          </Button>
         </div>
 
         <Tiptap content={bounty.description} editable={false} className="[& a]:opacity-0 mt-4 text-muted-foreground" />
@@ -66,6 +99,8 @@ export async function BountyView({ bounty, comments }: BountyViewProps) {
 
         <AddCommentBox />
       </div>
+
+      <AuthDialog isVisible={isVisible} onClose={() => setIsVisisble(false)} />
     </article>
   )
 }

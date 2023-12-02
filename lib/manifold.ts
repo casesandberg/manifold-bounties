@@ -37,12 +37,13 @@ export type Comment = {
   replyToCommentId?: string
 }
 
-async function fetchApi<T>(path: string, body?: Record<string, string | number>) {
+async function fetchApi<T>(path: string, body?: Record<string, string | number>, headers?: Record<string, string>) {
   const res = await fetch(`${MANIFOLD_API}${path}`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
+      ...headers,
     },
     body: JSON.stringify(body),
   })
@@ -55,12 +56,13 @@ async function fetchApi<T>(path: string, body?: Record<string, string | number>)
   }
 }
 
-async function fetchOldApi<T>(path: string, body?: Record<string, string | number>) {
+async function fetchOldApi<T>(path: string, body?: Record<string, string | number>, headers?: Record<string, string>) {
   const res = await fetch(`${MANIFOLD_OLD_API}${path}`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
+      ...headers,
     },
     body: JSON.stringify(body),
   })
@@ -94,4 +96,21 @@ export async function getBountyBySlug(slug: string) {
 export async function getComments(bountyId: string) {
   const bounty = await fetchOldApi<Array<Comment>>(`/comments?contractId=${bountyId}`)
   return bounty
+}
+
+export async function addBounty(bountyId: string, amount: number, authKey: string) {
+  try {
+    await fetchApi<void>(
+      `/add-bounty`,
+      {
+        amount,
+        contractId: bountyId,
+      },
+      {
+        Authorization: `Key ${authKey}`,
+      },
+    )
+  } catch (error) {
+    console.log(error)
+  }
 }
