@@ -26,6 +26,17 @@ export type Bounty = {
   description: Content
 }
 
+export type Comment = {
+  id: string
+  userId: string
+  userName: string
+  content: Content
+  contractSlug: string
+  userAvatarUrl: string
+  commentId: string
+  replyToCommentId?: string
+}
+
 async function fetchApi<T>(path: string, body?: Record<string, string | number>) {
   const res = await fetch(`${MANIFOLD_API}${path}`, {
     method: 'POST',
@@ -77,6 +88,10 @@ export async function getBounties() {
 
 export async function getBountyBySlug(slug: string) {
   const bounty = await fetchOldApi<Bounty>(`/slug/${slug}`)
-  console.log(bounty)
+  return bounty
+}
+
+export async function getComments(bountyId: string) {
+  const bounty = await fetchOldApi<Array<Comment>>(`/comments?contractId=${bountyId}`)
   return bounty
 }

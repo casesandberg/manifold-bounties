@@ -1,5 +1,6 @@
 import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'
+import { Suspense } from 'react'
 
 export function Layout({ children, showFooter = true }: { children: React.ReactNode; showFooter?: boolean }) {
   return (
