@@ -24,6 +24,7 @@ export type Bounty = {
   uniqueBettorCount: number
   creatorCreatedTime: number
   description: Content
+  url: string
 }
 
 export type Comment = {

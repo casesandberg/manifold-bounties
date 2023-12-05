@@ -8,6 +8,8 @@ import Link from 'next/link'
 export async function BountiesTable() {
   const bounties = await getBounties()
 
+  const filteredBounties = bounties.filter((bounty) => bounty.bountyLeft > 0)
+
   return (
     <Table>
       <TableHeader>
@@ -20,7 +22,7 @@ export async function BountiesTable() {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {bounties.map(
+        {filteredBounties.map(
           ({
             id,
             question,
@@ -28,7 +30,7 @@ export async function BountiesTable() {
             creatorUsername,
             creatorName,
             createdTime,
-            totalBounty,
+            bountyLeft,
             uniqueBettorCount,
             slug,
           }) => {
@@ -36,7 +38,7 @@ export async function BountiesTable() {
               <TableRow key={id}>
                 <TableCell className="flex justify-end">
                   <Button variant="outline" size="xs" className="gap-2 font-mono">
-                    {totalBounty} <TriangleUpIcon />
+                    {bountyLeft} <TriangleUpIcon />
                   </Button>
                 </TableCell>
                 <TableCell className="text-base font-medium">

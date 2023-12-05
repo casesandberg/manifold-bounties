@@ -2,7 +2,7 @@
 
 import { Bounty, Comment, addBounty } from '@/lib/manifold'
 import { Button } from './ui/Button'
-import { ClockIcon, TriangleUpIcon } from '@radix-ui/react-icons'
+import { ClockIcon, Link1Icon, TriangleUpIcon } from '@radix-ui/react-icons'
 import { UserAvatar } from './UserAvatar'
 import Tiptap from './Tiptap'
 import { AddCommentBox } from './AddCommentBox'
@@ -44,9 +44,9 @@ export function BountyView({ bounty, comments }: BountyViewProps) {
       <div className="w-[140px]">
         <div className="flex flex-col">
           <Button variant="outline" className="gap-2 font-mono" onClick={handleBounty(10)}>
-            {bounty.totalBounty} <TriangleUpIcon />
+            {bounty.bountyLeft} <TriangleUpIcon />
           </Button>
-          <div className="bg-border py-1 text-center text-[9px] uppercase">Current Bounty</div>
+          <div className="bg-border py-1 text-center text-[9px] uppercase">Bounty</div>
         </div>
       </div>
       <div>
@@ -61,10 +61,19 @@ export function BountyView({ bounty, comments }: BountyViewProps) {
             <div className="shrink-0">{bounty.creatorName}</div>
           </a>
 
-          <div className="flex flex-row items-center gap-2">
+          <div className="flex flex-row items-center gap-1">
             <ClockIcon />
             {new Date(bounty.createdTime).toLocaleDateString('en-us', { month: 'short', day: 'numeric' })}
           </div>
+
+          <a
+            className="flex flex-row items-center gap-1 underline-offset-4 hover:text-foreground hover:underline"
+            href={bounty.url}
+            target="_blank"
+          >
+            <Link1Icon />
+            Manifold
+          </a>
         </div>
 
         <div className="mt-4 flex flex-row gap-4">
