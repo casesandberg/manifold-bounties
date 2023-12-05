@@ -58,6 +58,11 @@
   }
 }
 
+.tiptap a {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
 .comment-creator .tiptap {
   padding: 16px;
   min-height: 100px;

@@ -46,6 +46,7 @@ async function fetchApi<T>(path: string, body?: Record<string, string | number>,
       ...headers,
     },
     body: JSON.stringify(body),
+    cache: 'no-store',
   })
 
   try {
@@ -65,6 +66,7 @@ async function fetchOldApi<T>(path: string, body?: Record<string, string | numbe
       ...headers,
     },
     body: JSON.stringify(body),
+    cache: 'no-store',
   })
 
   try {
