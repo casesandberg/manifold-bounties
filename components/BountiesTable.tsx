@@ -1,10 +1,9 @@
 import { getBounties } from '@/lib/manifold'
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from './ui/Table'
-import { TriangleUpIcon } from '@radix-ui/react-icons'
-import { Button } from './ui/Button'
-import { UserAvatar } from './UserAvatar'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './ui/Table'
 import Link from 'next/link'
 import { UserDisplay } from './UserDisplay'
+import { SyncMarketMemory } from '@/lib/marketBountyMemory'
+import { BountyTableUpvote } from './BountyTableUpvote'
 
 export async function BountiesTable() {
   const bounties = await getBounties()
@@ -13,6 +12,7 @@ export async function BountiesTable() {
 
   return (
     <Table>
+      <SyncMarketMemory bounties={bounties} />
       <TableHeader>
         <TableRow>
           <TableHead className="w-[100px]">Bounty</TableHead>
@@ -24,24 +24,11 @@ export async function BountiesTable() {
       </TableHeader>
       <TableBody>
         {filteredBounties.map(
-          ({
-            id,
-            question,
-            creatorAvatarUrl,
-            creatorUsername,
-            creatorName,
-            creatorId,
-            createdTime,
-            bountyLeft,
-            uniqueBettorCount,
-            slug,
-          }) => {
+          ({ id, question, creatorAvatarUrl, creatorUsername, creatorName, creatorId, createdTime, slug }) => {
             return (
               <TableRow key={id}>
                 <TableCell className="flex justify-end">
-                  <Button variant="outline" size="xs" className="gap-2 font-mono">
-                    {bountyLeft} <TriangleUpIcon />
-                  </Button>
+                  <BountyTableUpvote bountyId={id} />
                 </TableCell>
                 <TableCell>
                   <Link href={`/bounty/${slug}`} className="text-base font-medium visited:text-muted-foreground">

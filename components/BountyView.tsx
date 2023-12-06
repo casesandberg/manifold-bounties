@@ -11,6 +11,7 @@ import { AuthDialog } from './AuthDialog'
 import { useState } from 'react'
 import { useToast } from './ui/use-toast'
 import { UserDisplay } from './UserDisplay'
+import { useMarketBountyMemory } from '@/lib/marketBountyMemory'
 
 export type BountyViewProps = {
   bounty: Bounty
@@ -22,6 +23,8 @@ export function BountyView({ bounty, comments }: BountyViewProps) {
   const authToken = useAuthToken()
   const filteredComments = comments.filter((comment) => !comment.replyToCommentId)
   const { toast } = useToast()
+  const { memory, increment } = useMarketBountyMemory()
+  const bountyAmount = memory[bounty.id]
 
   const handleBounty = (amount: number) => () => {
     if (!authToken) {
@@ -30,10 +33,13 @@ export function BountyView({ bounty, comments }: BountyViewProps) {
     }
 
     addBounty(bounty.id, amount, authToken)
-      .then(() => {
-        toast({
-          title: 'Bounty added!',
-        })
+      .then((bountyRes) => {
+        if (bountyRes) {
+          increment(bountyRes.toId, bountyRes.amount)
+          toast({
+            title: 'Bounty added!',
+          })
+        }
       })
       .catch((error) => {
         console.log(error)
@@ -44,8 +50,8 @@ export function BountyView({ bounty, comments }: BountyViewProps) {
     <article className="flex flex-row gap-8">
       <div className="relative w-[140px]">
         <div className="sticky top-8 flex flex-col">
-          <Button variant="outline" size="lg" className="gap-2 font-mono" onClick={handleBounty(10)}>
-            {bounty.bountyLeft} <TriangleUpIcon />
+          <Button variant="outline" size="lg" className="gap-2 font-mono text-xl" onClick={handleBounty(10)}>
+            {bountyAmount} <TriangleUpIcon />
           </Button>
           <div className="bg-border py-1 text-center text-[9px] uppercase">Bounty</div>
 

@@ -7,6 +7,7 @@ import { ThemeProvider } from '@/components/ThemeProvider'
 import { Layout } from '@/components/Layout'
 import { AuthContextProvider } from '@/lib/auth'
 import { Toaster } from '@/components/ui/Toaster'
+import { MarketBountyMemoryContextProvider } from '@/lib/marketBountyMemory'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -29,7 +30,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div className="flex w-full flex-col">
           <AuthContextProvider>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-              <Layout>{children}</Layout>
+              <MarketBountyMemoryContextProvider>
+                <Layout>{children}</Layout>
+              </MarketBountyMemoryContextProvider>
             </ThemeProvider>
           </AuthContextProvider>
         </div>

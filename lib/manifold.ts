@@ -105,7 +105,7 @@ export async function getComments(bountyId: string) {
 
 export async function addBounty(bountyId: string, amount: number, authKey: string) {
   try {
-    await fetchApi<void>(
+    return await fetchApi<{ amount: number; toId: string }>(
       `/add-bounty`,
       {
         amount,
