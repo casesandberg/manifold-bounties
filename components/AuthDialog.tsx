@@ -1,19 +1,18 @@
 'use client'
 
 import { useState } from 'react'
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from './ui/Dialog'
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogHeader, DialogTitle } from './ui/Dialog'
 import { Input } from './ui/Input'
-import { setAuthCookie } from '@/lib/auth'
 
-export function AuthDialog({ isVisible, onClose }: { isVisible: boolean; onClose: () => void }) {
+export function AuthDialog({
+  isVisible,
+  onClose,
+  onSubmit,
+}: {
+  isVisible: boolean
+  onClose: () => void
+  onSubmit: (authKey: string) => void
+}) {
   const [key, setKey] = useState('')
 
   return (
@@ -37,8 +36,7 @@ export function AuthDialog({ isVisible, onClose }: { isVisible: boolean; onClose
         <Input placeholder="XXXXXXXX-XXXX..." value={key} onChange={(e) => setKey(e.target.value)} />
         <DialogClose
           onClick={() => {
-            setAuthCookie(key)
-            window?.location.reload()
+            onSubmit(key)
           }}
         >
           Save Key

@@ -8,18 +8,17 @@ import { useUser } from '@/lib/user'
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from './ui/DropdownMenu'
 import { UserAvatar } from './UserAvatar'
-import { deleteAuthCookie } from '@/lib/auth'
+import { useAuth } from '@/lib/auth'
 
 export function Header() {
   const user = useUser()
+  const { requestAuth, clearAuth } = useAuth()
 
   return (
     <header className="relative z-50 flex-none p-6">
@@ -52,18 +51,11 @@ export function Header() {
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  onClick={() => {
-                    deleteAuthCookie()
-                    window.location.reload()
-                  }}
-                >
-                  Log out
-                </DropdownMenuItem>
+                <DropdownMenuItem onClick={clearAuth}>Log out</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <Button variant="ghost" size="sm">
+            <Button variant="ghost" size="sm" onClick={requestAuth}>
               Login
             </Button>
           )}

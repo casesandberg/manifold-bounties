@@ -1,6 +1,8 @@
 'use server'
 
 import { Content } from '@tiptap/react'
+import { getCookie } from 'cookies-next'
+import { cookies } from 'next/headers'
 
 const MANIFOLD_API = 'https://api.manifold.markets'
 const MANIFOLD_OLD_API = 'https://manifold.markets/api/v0'
@@ -49,11 +51,14 @@ export type User = {
 }
 
 async function fetchApi<T>(path: string, body?: Record<string, string | number>, headers?: Record<string, string>) {
+  const authKey = getCookie('MANIFOLD_AUTH_COOKIE', { cookies })
+
   const res = await fetch(`${MANIFOLD_API}${path}`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
+      ...(authKey ? { Authorization: `Key ${authKey}` } : {}),
       ...headers,
     },
     body: JSON.stringify(body),
@@ -69,11 +74,14 @@ async function fetchApi<T>(path: string, body?: Record<string, string | number>,
 }
 
 async function fetchOldApi<T>(path: string, body?: Record<string, string | number>, headers?: Record<string, string>) {
+  const authKey = getCookie('MANIFOLD_AUTH_COOKIE', { cookies })
+
   const res = await fetch(`${MANIFOLD_OLD_API}${path}`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
+      ...(authKey ? { Authorization: `Key ${authKey}` } : {}),
       ...headers,
     },
     body: JSON.stringify(body),
@@ -89,11 +97,14 @@ async function fetchOldApi<T>(path: string, body?: Record<string, string | numbe
 }
 
 async function getOldApi<T>(path: string, headers?: Record<string, string>) {
+  const authKey = getCookie('MANIFOLD_AUTH_COOKIE', { cookies })
+
   const res = await fetch(`${MANIFOLD_OLD_API}${path}`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
+      ...(authKey ? { Authorization: `Key ${authKey}` } : {}),
       ...headers,
     },
     cache: 'no-store',
@@ -130,10 +141,8 @@ export async function getComments(bountyId: string) {
   return bounty
 }
 
-export async function getMe(authKey: string) {
-  return getOldApi<User>(`/me`, {
-    Authorization: `Key ${authKey}`,
-  })
+export async function getMe() {
+  return getOldApi<User | { message: string }>(`/me`)
 }
 
 export async function addBounty(bountyId: string, amount: number, authKey: string) {

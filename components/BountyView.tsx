@@ -3,12 +3,9 @@
 import { Bounty, Comment, addBounty } from '@/lib/manifold'
 import { Button } from './ui/Button'
 import { ClockIcon, ExternalLinkIcon, TriangleUpIcon } from '@radix-ui/react-icons'
-import { UserAvatar } from './UserAvatar'
 import Tiptap from './Tiptap'
 import { AddCommentBox } from './AddCommentBox'
-import { useAuthToken } from '@/lib/auth'
-import { AuthDialog } from './AuthDialog'
-import { useState } from 'react'
+import { useAuth } from '@/lib/auth'
 import { useToast } from './ui/use-toast'
 import { UserDisplay } from './UserDisplay'
 import { useMarketBountyMemory } from '@/lib/marketBountyMemory'
@@ -20,20 +17,19 @@ export type BountyViewProps = {
 }
 
 export function BountyView({ bounty, comments }: BountyViewProps) {
-  const [isVisible, setIsVisisble] = useState(false)
-  const authToken = useAuthToken()
+  const { authKey, requestAuth } = useAuth()
   const filteredComments = comments.filter((comment) => !comment.replyToCommentId)
   const { toast } = useToast()
   const { memory, increment } = useMarketBountyMemory()
   const bountyAmount = memory[bounty.id] || bounty.bountyLeft
 
   const handleBounty = (amount: number) => () => {
-    if (!authToken) {
-      setIsVisisble(true)
+    if (!authKey) {
+      requestAuth()
       return
     }
 
-    addBounty(bounty.id, amount, authToken)
+    addBounty(bounty.id, amount, authKey)
       .then((bountyRes) => {
         if (bountyRes) {
           increment(bountyRes.toId, bountyRes.amount)
@@ -125,8 +121,6 @@ export function BountyView({ bounty, comments }: BountyViewProps) {
 
         <AddCommentBox />
       </div>
-
-      <AuthDialog isVisible={isVisible} onClose={() => setIsVisisble(false)} />
     </article>
   )
 }

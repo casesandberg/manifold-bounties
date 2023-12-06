@@ -9,6 +9,8 @@ import { AuthContextProvider } from '@/lib/auth'
 import { Toaster } from '@/components/ui/Toaster'
 import { MarketBountyMemoryContextProvider } from '@/lib/marketBountyMemory'
 import { UserContextProvider } from '@/lib/user'
+import { cookies } from 'next/headers'
+import { getCookie } from 'cookies-next'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -25,11 +27,13 @@ export const metadata: Metadata = {
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const authKey = getCookie('MANIFOLD_AUTH_COOKIE', { cookies })
+
   return (
     <html lang="en" className={clsx('h-full bg-white antialiased', inter.variable)} suppressHydrationWarning>
       <body className="flex min-h-full">
         <div className="flex w-full flex-col">
-          <AuthContextProvider>
+          <AuthContextProvider initialValue={authKey}>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
               <UserContextProvider>
                 <MarketBountyMemoryContextProvider>
