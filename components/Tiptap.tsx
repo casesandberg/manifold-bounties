@@ -54,7 +54,7 @@ const Tiptap = ({ content, placeholder, editable, className }: TiptapProps) => {
     editorProps: {
       attributes: {
         class:
-          'prose prose-p:text-muted-foreground prese-a:underline prose-a:text-foreground prose-p:my-1 prose-ul:my-0 dark:prose-invert prose-sm sm:prose-base focus:outline-none',
+          'prose prose-p:text-muted-foreground prese-a:underline prose-a:text-foreground prose-a:opacity-75 prose-p:my-1 prose-ul:my-0 dark:prose-invert prose-sm sm:prose-base focus:outline-none',
       },
     },
   })

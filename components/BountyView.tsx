@@ -2,7 +2,7 @@
 
 import { Bounty, Comment, addBounty } from '@/lib/manifold'
 import { Button } from './ui/Button'
-import { ClockIcon, Link1Icon, TriangleUpIcon } from '@radix-ui/react-icons'
+import { ClockIcon, ExternalLinkIcon, TriangleUpIcon } from '@radix-ui/react-icons'
 import { UserAvatar } from './UserAvatar'
 import Tiptap from './Tiptap'
 import { AddCommentBox } from './AddCommentBox'
@@ -41,12 +41,24 @@ export function BountyView({ bounty, comments }: BountyViewProps) {
 
   return (
     <article className="flex flex-row gap-8">
-      <div className="w-[140px]">
-        <div className="flex flex-col">
-          <Button variant="outline" className="gap-2 font-mono" onClick={handleBounty(10)}>
+      <div className="relative w-[140px]">
+        <div className="sticky top-8 flex flex-col">
+          <Button variant="outline" size="lg" className="gap-2 font-mono" onClick={handleBounty(10)}>
             {bounty.bountyLeft} <TriangleUpIcon />
           </Button>
           <div className="bg-border py-1 text-center text-[9px] uppercase">Bounty</div>
+
+          <div className="mt-12 flex flex-col gap-2">
+            <Button onClick={handleBounty(1000)} size="sm">
+              I NEED IT <span className="ml-2 font-mono">+1000</span>
+            </Button>
+            <Button variant="outline" onClick={handleBounty(250)} size="sm">
+              I WANT IT <span className="ml-2 font-mono">+250</span>
+            </Button>
+            <Button variant="outline" onClick={handleBounty(10)} size="sm">
+              I LIKE IT <span className="ml-2 font-mono">+10</span>
+            </Button>
+          </div>
         </div>
       </div>
       <div>
@@ -71,19 +83,9 @@ export function BountyView({ bounty, comments }: BountyViewProps) {
             href={bounty.url}
             target="_blank"
           >
-            <Link1Icon />
             Manifold
+            <ExternalLinkIcon />
           </a>
-        </div>
-
-        <div className="mt-4 flex flex-row gap-4">
-          <Button onClick={handleBounty(250)}>I NEED IT +250</Button>
-          <Button variant="outline" onClick={handleBounty(100)}>
-            I WANT IT +100
-          </Button>
-          <Button variant="outline" onClick={handleBounty(10)}>
-            I LIKE IT +10
-          </Button>
         </div>
 
         <Tiptap content={bounty.description} editable={false} className="[& a]:opacity-0 mt-4 text-muted-foreground" />
