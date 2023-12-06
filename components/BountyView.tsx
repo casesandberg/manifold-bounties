@@ -57,7 +57,6 @@ export function BountyView({ bounty, comments }: BountyViewProps) {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="min-w-26 w-26 font-mono" align="end" forceMount>
-              <DropdownMenuItem onClick={handleBounty(10)}>Add +10</DropdownMenuItem>
               <DropdownMenuItem onClick={handleBounty(100)}>Add +100</DropdownMenuItem>
               <DropdownMenuItem onClick={handleBounty(500)}>Add +500</DropdownMenuItem>
               <DropdownMenuItem onClick={handleBounty(1000)}>Add +1000</DropdownMenuItem>
