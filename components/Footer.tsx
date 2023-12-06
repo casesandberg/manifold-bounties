@@ -31,6 +31,15 @@ export function Footer() {
             Say thanks with mana
           </a>
         </p>
+
+        <p className="text-sm text-muted-foreground">
+          <a
+            href="https://github.com/casesandberg/manifold-bounties"
+            className="flex flex-row items-center gap-2 underline-offset-4 hover:text-foreground hover:underline"
+          >
+            Open Source on Github
+          </a>
+        </p>
       </Container>
     </footer>
   )
