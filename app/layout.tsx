@@ -31,6 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <html lang="en" className={clsx('h-full bg-white antialiased', inter.variable)} suppressHydrationWarning>
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
       <body className="flex min-h-full">
         <div className="flex w-full flex-col">
           <AuthContextProvider initialValue={authKey}>

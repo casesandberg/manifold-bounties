@@ -13,7 +13,7 @@ export async function BountiesTable() {
   return (
     <Table>
       <SyncMarketMemory bounties={bounties} />
-      <TableHeader>
+      <TableHeader className="hidden sm:table-header-group">
         <TableRow>
           <TableHead className="w-[100px]">Bounty</TableHead>
           <TableHead>Proposal</TableHead>
@@ -36,8 +36,8 @@ export async function BountiesTable() {
             bountyLeft,
           }) => {
             return (
-              <TableRow key={id}>
-                <TableCell className="flex justify-end">
+              <TableRow key={id} className="flex flex-col sm:table-row">
+                <TableCell className="flex pb-0 sm:justify-end sm:pb-4">
                   <BountyTableUpvote bountyId={id} initialValue={bountyLeft} />
                 </TableCell>
                 <TableCell>
@@ -45,7 +45,7 @@ export async function BountiesTable() {
                     {question}
                   </Link>
                 </TableCell>
-                <TableCell className="text-muted-foreground">
+                <TableCell className="pt-0 text-muted-foreground sm:pt-4">
                   <UserDisplay
                     user={{
                       id: creatorId,
@@ -55,7 +55,7 @@ export async function BountiesTable() {
                     }}
                   />
                 </TableCell>
-                <TableCell className="text-muted-foreground">
+                <TableCell className="hidden text-muted-foreground sm:table-cell">
                   {new Date(createdTime).toLocaleDateString('en-us', { month: 'short', day: 'numeric' })}
                 </TableCell>
                 {/* <TableCell className="align-top text-muted-foreground">{uniqueBettorCount}</TableCell> */}

@@ -44,7 +44,7 @@ export function BountyView({ bounty, comments }: BountyViewProps) {
   }
 
   return (
-    <article className="flex flex-row gap-8">
+    <article className="flex flex-col gap-8 sm:flex-row">
       <div className="relative w-[150px]">
         <div className="sticky top-8 flex flex-col">
           <DropdownMenu>
@@ -62,7 +62,7 @@ export function BountyView({ bounty, comments }: BountyViewProps) {
 
           <div className="bg-border py-1 text-center text-[9px] uppercase">Bounty</div>
 
-          <div className="mt-12 flex flex-col gap-2">
+          <div className="mt-12 hidden flex-col gap-2 sm:flex">
             <Button variant="outline" onClick={handleBounty(1000)} size="sm" className="font-mono">
               I NEED IT +1000
             </Button>

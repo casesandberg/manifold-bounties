@@ -6,7 +6,7 @@ import { CardStackPlusIcon } from '@radix-ui/react-icons'
 export function Footer() {
   return (
     <footer className="flex-none pb-8 pt-16">
-      <div className="fixed bottom-4 left-4">
+      <div className="fixed bottom-4 left-4 hidden sm:block">
         <ThemeModeToggle />
       </div>
 

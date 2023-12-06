@@ -189,7 +189,7 @@ export function CreateBounty() {
               </div>
               <FormControl>
                 <Tabs
-                  className="w-[400px]"
+                  className="w-auto sm:w-[400px]"
                   value={value.toString()}
                   onValueChange={(change) => {
                     onChange(parseInt(change))

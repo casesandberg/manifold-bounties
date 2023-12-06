@@ -16,6 +16,7 @@ import {
 import { UserAvatar } from './UserAvatar'
 import { useAuth } from '@/lib/auth'
 import { useRouter } from 'next/navigation'
+import { PersonIcon } from '@radix-ui/react-icons'
 
 export function Header() {
   const user = useUser()
@@ -23,7 +24,7 @@ export function Header() {
   const router = useRouter()
 
   return (
-    <header className="relative z-50 flex-none p-6">
+    <header className="relative z-50 flex-none px-0 py-4 sm:p-6">
       <Container className="flex flex-wrap items-center justify-between lg:flex-nowrap">
         <div className="flex flex-row gap-4">
           <Link href="/">
@@ -33,15 +34,16 @@ export function Header() {
           {/* <MainNav /> */}
         </div>
 
-        <div className="hidden grow flex-row items-center justify-end gap-4 sm:flex">
+        <div className="flex grow flex-row items-center justify-end gap-2 sm:gap-4">
           <Button variant="outline" size="sm" onClick={() => router.push('/create')}>
-            Write Proposal
+            <span className="hidden sm:block">Create Proposal</span>
+            <span className="block sm:hidden">Create</span>
           </Button>
 
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                <Button variant="ghost" className="relative ml-1 h-8 w-8 rounded-full">
                   <UserAvatar name={user.name} src={user.avatarUrl} size="lg" />
                 </Button>
               </DropdownMenuTrigger>
@@ -57,8 +59,8 @@ export function Header() {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <Button variant="ghost" size="sm" onClick={requestAuth}>
-              Login
+            <Button variant="outline" size="icon" className="h-9 w-9" onClick={requestAuth}>
+              <PersonIcon />
             </Button>
           )}
         </div>
