@@ -55,11 +55,11 @@ export function BountyView({ bounty, comments }: BountyViewProps) {
             <Button onClick={handleBounty(1000)} size="sm" className="font-mono">
               I NEED IT +1000
             </Button>
-            <Button variant="outline" onClick={handleBounty(250)} size="sm" className="font-mono">
-              I WANT IT +250
+            <Button variant="outline" onClick={handleBounty(500)} size="sm" className="font-mono">
+              I WANT IT +500
             </Button>
-            <Button variant="outline" onClick={handleBounty(10)} size="sm" className="font-mono">
-              I LIKE IT +10
+            <Button variant="outline" onClick={handleBounty(100)} size="sm" className="font-mono">
+              I LIKE IT +100
             </Button>
           </div>
         </div>

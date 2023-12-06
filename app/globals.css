@@ -58,12 +58,6 @@
   }
 }
 
-p:not(:first-child):has(.ProseMirror-trailingBreak),
-.tiptap p:first-child br {
-  height: 0 !important;
-  margin-top: 16px;
-}
-
 .tiptap p.is-editor-empty:first-child::before {
   color: #adb5bd;
   content: attr(data-placeholder);

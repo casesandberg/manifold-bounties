@@ -18,9 +18,10 @@ export type TiptapProps = {
   onChange?: (content: Content) => void
   className?: string
   editorRef?: React.Ref<EditorRef>
+  id?: string
 }
 
-const Tiptap = ({ content, placeholder, editable, onChange, editorRef, className }: TiptapProps) => {
+const Tiptap = ({ content, placeholder, editable, onChange, editorRef, className, id }: TiptapProps) => {
   const editor = useEditor({
     extensions: [
       Image.extend({ renderText: () => '[image]' }),
@@ -95,6 +96,7 @@ const Tiptap = ({ content, placeholder, editable, onChange, editorRef, className
     editable,
     editorProps: {
       attributes: {
+        id: id ?? 'Editor',
         class: clsx(
           'prose prose-primary prose-a:brightness-95 prose-a:font-medium prose-a:underline prose-a:underline-offset-4 hover:prose-a:opacity-75 prose-p:my-1 prose-ul:my-0 prose-blockquote:my-0 prose-sm sm:prose-base focus:outline-none',
           className,

@@ -133,7 +133,7 @@ export async function getBounties() {
 }
 
 export async function getBountyBySlug(slug: string) {
-  const bounty = await fetchOldApi<Bounty>(`/slug/${slug}`)
+  const bounty = await fetchOldApi<Bounty | { error: string }>(`/slug/${slug}`)
   return bounty
 }
 
@@ -150,6 +150,16 @@ export async function addComment(bountyId: string, content: Content) {
   return fetchOldApi<Array<Comment>>(`/comment`, {
     contractId: bountyId,
     content,
+  })
+}
+
+export async function createBounty(title: string, content: Content, totalBounty: number) {
+  return fetchOldApi<Bounty | { message: string }>(`/market`, {
+    outcomeType: 'BOUNTIED_QUESTION',
+    question: title,
+    descriptionJson: JSON.stringify(content),
+    groupIds: ['307bdc81-53c6-41f0-b8bf-6941ba90ce5f'],
+    totalBounty,
   })
 }
 

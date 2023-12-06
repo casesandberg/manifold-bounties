@@ -15,10 +15,12 @@ import {
 } from './ui/DropdownMenu'
 import { UserAvatar } from './UserAvatar'
 import { useAuth } from '@/lib/auth'
+import { useRouter } from 'next/navigation'
 
 export function Header() {
   const user = useUser()
   const { requestAuth, clearAuth } = useAuth()
+  const router = useRouter()
 
   return (
     <header className="relative z-50 flex-none p-6">
@@ -32,7 +34,7 @@ export function Header() {
         </div>
 
         <div className="hidden grow flex-row items-center justify-end gap-4 sm:flex">
-          <Button variant="outline" size="sm">
+          <Button variant="outline" size="sm" onClick={() => router.push('/create')}>
             Write Proposal
           </Button>
 
