@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={clsx('h-full bg-white antialiased', inter.variable)}>
+    <html lang="en" className={clsx('h-full bg-white antialiased', inter.variable)} suppressHydrationWarning>
       <body className="flex min-h-full">
         <div className="flex w-full flex-col">
           <AuthContextProvider>
