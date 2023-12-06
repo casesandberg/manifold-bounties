@@ -12,7 +12,7 @@ export function Counter({ value, height = 28 }: { value: number; height?: number
     <div className="flex overflow-hidden rounded leading-none">
       {value > 9999 && <Digit place={10000} value={value} height={height} />}
       {value > 999 && <Digit place={1000} value={value} height={height} />}
-      <Digit place={100} value={value} height={height} />
+      {value > 99 && <Digit place={100} value={value} height={height} />}
       <Digit place={10} value={value} height={height} />
       <Digit place={1} value={value} height={height} />
     </div>

@@ -1,5 +1,6 @@
 'use client'
 
+import _ from 'lodash'
 import { Bounty, Comment, addBounty } from '@/lib/manifold'
 import { Button } from './ui/Button'
 import { ClockIcon, ExternalLinkIcon, TriangleUpIcon } from '@radix-ui/react-icons'
@@ -10,6 +11,7 @@ import { useToast } from './ui/use-toast'
 import { UserDisplay } from './UserDisplay'
 import { useMarketBountyMemory } from '@/lib/marketBountyMemory'
 import { Counter } from './Counter'
+import { Badge } from './ui/Badge'
 
 export type BountyViewProps = {
   bounty: Bounty
@@ -18,7 +20,8 @@ export type BountyViewProps = {
 
 export function BountyView({ bounty, comments }: BountyViewProps) {
   const { authKey, requestAuth } = useAuth()
-  const filteredComments = comments.filter((comment) => !comment.replyToCommentId)
+  const orderedComments = _.orderBy(comments, 'createdTime', 'asc')
+  const filteredComments = orderedComments.filter((comment) => !comment.replyToCommentId)
   const { toast } = useToast()
   const { memory, increment } = useMarketBountyMemory()
   const bountyAmount = memory[bounty.id] || bounty.bountyLeft
@@ -41,7 +44,7 @@ export function BountyView({ bounty, comments }: BountyViewProps) {
 
   return (
     <article className="flex flex-row gap-8">
-      <div className="relative w-[140px]">
+      <div className="relative w-[150px]">
         <div className="sticky top-8 flex flex-col">
           <Button variant="outline" size="lg" className="gap-2 font-mono text-xl" onClick={handleBounty(10)}>
             <Counter value={bountyAmount} height={42} /> <TriangleUpIcon />
@@ -49,14 +52,14 @@ export function BountyView({ bounty, comments }: BountyViewProps) {
           <div className="bg-border py-1 text-center text-[9px] uppercase">Bounty</div>
 
           <div className="mt-12 flex flex-col gap-2">
-            <Button onClick={handleBounty(1000)} size="sm">
-              I NEED IT <span className="ml-2 font-mono">+1000</span>
+            <Button onClick={handleBounty(1000)} size="sm" className="font-mono">
+              I NEED IT +1000
             </Button>
-            <Button variant="outline" onClick={handleBounty(250)} size="sm">
-              I WANT IT <span className="ml-2 font-mono">+250</span>
+            <Button variant="outline" onClick={handleBounty(250)} size="sm" className="font-mono">
+              I WANT IT +250
             </Button>
-            <Button variant="outline" onClick={handleBounty(10)} size="sm">
-              I LIKE IT <span className="ml-2 font-mono">+10</span>
+            <Button variant="outline" onClick={handleBounty(10)} size="sm" className="font-mono">
+              I LIKE IT +10
             </Button>
           </div>
         </div>
@@ -107,6 +110,12 @@ export function BountyView({ bounty, comments }: BountyViewProps) {
                 <div className="text-sm text-muted-foreground">
                   {new Date(comment.createdTime).toLocaleDateString('en-us', { month: 'short', day: 'numeric' })}
                 </div>
+
+                {comment.bountyAwarded ? (
+                  <Badge variant="default" className="font-mono uppercase">
+                    {comment.bountyAwarded} awarded
+                  </Badge>
+                ) : null}
               </div>
               <div className="ml-2.5 border-l-2 pl-4">
                 <Tiptap content={comment.content} editable={false} className="text-muted-foreground" />
@@ -115,7 +124,7 @@ export function BountyView({ bounty, comments }: BountyViewProps) {
           ))}
         </div>
 
-        <AddCommentBox />
+        <AddCommentBox bountyId={bounty.id} />
       </div>
     </article>
   )

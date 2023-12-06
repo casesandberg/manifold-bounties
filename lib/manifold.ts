@@ -40,6 +40,7 @@ export type Comment = {
   commentId: string
   replyToCommentId?: string
   createdTime: number
+  bountyAwarded?: number
 }
 
 export type User = {
@@ -73,7 +74,7 @@ async function fetchApi<T>(path: string, body?: Record<string, string | number>,
   }
 }
 
-async function fetchOldApi<T>(path: string, body?: Record<string, string | number>, headers?: Record<string, string>) {
+async function fetchOldApi<T>(path: string, body?: Record<string, unknown>, headers?: Record<string, string>) {
   const authKey = getCookie('MANIFOLD_AUTH_COOKIE', { cookies })
 
   const res = await fetch(`${MANIFOLD_OLD_API}${path}`, {
@@ -96,7 +97,7 @@ async function fetchOldApi<T>(path: string, body?: Record<string, string | numbe
   }
 }
 
-async function getOldApi<T>(path: string, headers?: Record<string, string>) {
+async function getOldApi<T>(path: string, headers?: Record<string, unknown>) {
   const authKey = getCookie('MANIFOLD_AUTH_COOKIE', { cookies })
 
   const res = await fetch(`${MANIFOLD_OLD_API}${path}`, {
@@ -143,6 +144,13 @@ export async function getComments(bountyId: string) {
 
 export async function getMe() {
   return getOldApi<User | { message: string }>(`/me`)
+}
+
+export async function addComment(bountyId: string, content: Content) {
+  return fetchOldApi<Array<Comment>>(`/comment`, {
+    contractId: bountyId,
+    content,
+  })
 }
 
 export async function addBounty(bountyId: string, amount: number) {
