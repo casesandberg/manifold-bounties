@@ -167,10 +167,12 @@ export async function createBounty(title: string, content: Content, totalBounty:
 
 export async function addBounty(bountyId: string, amount: number) {
   try {
-    return await fetchApi<{ amount: number; toId: string }>(`/add-bounty`, {
-      amount,
-      contractId: bountyId,
-    })
+    return await fetchOldApi<{ amount: number; toId: string } | { success: boolean }>(
+      `/market/${bountyId}/add-bounty`,
+      {
+        amount,
+      },
+    )
   } catch (error) {
     console.log(error)
   }

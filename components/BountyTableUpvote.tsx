@@ -15,11 +15,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from './ui/DropdownMenu'
+import { useRouter } from 'next/navigation'
 
 export function BountyTableUpvote({ bountyId, initialValue = 0 }: { bountyId: string; initialValue?: number }) {
   const { memory, increment } = useMarketBountyMemory()
   const { authKey, requestAuth } = useAuth()
   const bountyAmount = memory[bountyId] || initialValue
+  const router = useRouter()
 
   const handleBounty = (amount: number) => () => {
     if (!authKey) {
@@ -28,8 +30,9 @@ export function BountyTableUpvote({ bountyId, initialValue = 0 }: { bountyId: st
     }
 
     addBounty(bountyId, amount).then((bountyRes) => {
-      if (bountyRes) {
-        increment(bountyRes.toId, bountyRes.amount)
+      if (bountyRes && 'success' in bountyRes) {
+        router.refresh()
+        // increment(bountyRes.toId, bountyRes.amount)
         toast({
           title: 'Bounty added!',
         })

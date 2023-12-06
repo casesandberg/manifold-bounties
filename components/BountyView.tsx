@@ -13,6 +13,7 @@ import { useMarketBountyMemory } from '@/lib/marketBountyMemory'
 import { Counter } from './Counter'
 import { Badge } from './ui/Badge'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/DropdownMenu'
+import { useRouter } from 'next/navigation'
 
 export type BountyViewProps = {
   bounty: Bounty
@@ -25,6 +26,7 @@ export function BountyView({ bounty, comments }: BountyViewProps) {
   const filteredComments = orderedComments.filter((comment) => !comment.replyToCommentId)
   const { toast } = useToast()
   const { memory, increment } = useMarketBountyMemory()
+  const router = useRouter()
   const bountyAmount = memory[bounty.id] || bounty.bountyLeft
 
   const handleBounty = (amount: number) => () => {
@@ -34,8 +36,9 @@ export function BountyView({ bounty, comments }: BountyViewProps) {
     }
 
     addBounty(bounty.id, amount).then((bountyRes) => {
-      if (bountyRes) {
-        increment(bountyRes.toId, bountyRes.amount)
+      if (bountyRes && 'success' in bountyRes) {
+        router.refresh()
+        // increment(bountyRes.toId, bountyRes.amount)
         toast({
           title: 'Bounty added!',
         })
@@ -54,6 +57,7 @@ export function BountyView({ bounty, comments }: BountyViewProps) {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="min-w-26 w-26 font-mono" align="end" forceMount>
+              <DropdownMenuItem onClick={handleBounty(10)}>Add +10</DropdownMenuItem>
               <DropdownMenuItem onClick={handleBounty(100)}>Add +100</DropdownMenuItem>
               <DropdownMenuItem onClick={handleBounty(500)}>Add +500</DropdownMenuItem>
               <DropdownMenuItem onClick={handleBounty(1000)}>Add +1000</DropdownMenuItem>
