@@ -10,8 +10,8 @@ export function Hero() {
         </h1>
         <div className="font-display mt-6 space-y-6 text-2xl tracking-tight text-muted-foreground">
           <p>
-            Do you have an idea for a Manifold feature? Create and boost bounties to entice our community to bring these
-            feature to life!
+            Do you have an idea for a Manifold feature? Create and boost bounties with mana to entice our community to
+            bring these feature to life!
           </p>
         </div>
         {/* <Button className="mt-10 w-full sm:hidden">Get your tickets</Button>
