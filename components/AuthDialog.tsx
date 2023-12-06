@@ -19,21 +19,21 @@ export function AuthDialog({
     <Dialog open={isVisible} onOpenChange={onClose}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>To increase bounty, add your Manifold api key</DialogTitle>
+          <DialogTitle>We need your Manifold api key to continue.</DialogTitle>
           <DialogDescription>
-            Enter your{' '}
+            Navigate to bottom of your{' '}
             <a
               className="underline underline-offset-4 hover:text-foreground"
               href="https://manifold.markets/profile"
               target="_blank"
             >
-              Manifold API key
+              Manifold Profile
             </a>{' '}
-            to add mana to bounty proposals.
+            to locate it.
           </DialogDescription>
         </DialogHeader>
 
-        <Input placeholder="XXXXXXXX-XXXX..." value={key} onChange={(e) => setKey(e.target.value)} />
+        <Input type="password" placeholder="XXXXXXXX-XXXX..." value={key} onChange={(e) => setKey(e.target.value)} />
         <DialogClose
           onClick={() => {
             onSubmit(key)

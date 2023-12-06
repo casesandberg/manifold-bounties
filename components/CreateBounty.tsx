@@ -232,7 +232,7 @@ export function CreateBounty() {
             <CheckCircledIcon className="h-5 w-5" />
             <AlertTitle>Your proposal was created successfully!</AlertTitle>
             <AlertDescription>
-              Manifold servers are under a heavy load right now. Please wait a few minutes for your proposal to appear.
+              It may take a few mements for your proposal to appear. You can find it here:
             </AlertDescription>
             <AlertDescription>
               <Link href={`/bounty/${successSlug}`} className="underline underline-offset-4" target="_blank">
