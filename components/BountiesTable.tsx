@@ -24,11 +24,21 @@ export async function BountiesTable() {
       </TableHeader>
       <TableBody>
         {filteredBounties.map(
-          ({ id, question, creatorAvatarUrl, creatorUsername, creatorName, creatorId, createdTime, slug }) => {
+          ({
+            id,
+            question,
+            creatorAvatarUrl,
+            creatorUsername,
+            creatorName,
+            creatorId,
+            createdTime,
+            slug,
+            bountyLeft,
+          }) => {
             return (
               <TableRow key={id}>
                 <TableCell className="flex justify-end">
-                  <BountyTableUpvote bountyId={id} />
+                  <BountyTableUpvote bountyId={id} initialValue={bountyLeft} />
                 </TableCell>
                 <TableCell>
                   <Link href={`/bounty/${slug}`} className="text-base font-medium visited:text-muted-foreground">
