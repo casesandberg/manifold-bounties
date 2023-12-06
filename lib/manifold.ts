@@ -145,18 +145,12 @@ export async function getMe() {
   return getOldApi<User | { message: string }>(`/me`)
 }
 
-export async function addBounty(bountyId: string, amount: number, authKey: string) {
+export async function addBounty(bountyId: string, amount: number) {
   try {
-    return await fetchApi<{ amount: number; toId: string }>(
-      `/add-bounty`,
-      {
-        amount,
-        contractId: bountyId,
-      },
-      {
-        Authorization: `Key ${authKey}`,
-      },
-    )
+    return await fetchApi<{ amount: number; toId: string }>(`/add-bounty`, {
+      amount,
+      contractId: bountyId,
+    })
   } catch (error) {
     console.log(error)
   }

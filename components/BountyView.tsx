@@ -29,18 +29,14 @@ export function BountyView({ bounty, comments }: BountyViewProps) {
       return
     }
 
-    addBounty(bounty.id, amount, authKey)
-      .then((bountyRes) => {
-        if (bountyRes) {
-          increment(bountyRes.toId, bountyRes.amount)
-          toast({
-            title: 'Bounty added!',
-          })
-        }
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+    addBounty(bounty.id, amount).then((bountyRes) => {
+      if (bountyRes) {
+        increment(bountyRes.toId, bountyRes.amount)
+        toast({
+          title: 'Bounty added!',
+        })
+      }
+    })
   }
 
   return (
