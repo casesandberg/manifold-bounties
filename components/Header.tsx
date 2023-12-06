@@ -9,7 +9,7 @@ export function Header() {
       <Container className="flex flex-wrap items-center justify-between lg:flex-nowrap">
         <div className="flex flex-row gap-4">
           <Link href="/">
-            <Logo className="h-12 w-auto text-slate-900" />
+            <Logo className="h-12 w-auto" />
           </Link>
 
           {/* <MainNav /> */}

@@ -88,20 +88,27 @@ export function BountyView({ bounty, comments }: BountyViewProps) {
 
         <Tiptap content={bounty.description} editable={false} className="[& a]:opacity-0 mt-4 text-muted-foreground" />
 
-        <h3 className="mt-4 text-xl font-medium">Comments</h3>
+        <h3 className="mt-12 text-xl font-medium">Comments</h3>
 
-        <div className="mb-8 mt-2 flex flex-col gap-4">
+        <div className="mb-8 mt-4 flex flex-col gap-4">
           {filteredComments.map((comment) => (
             <div key={comment.id}>
-              <a
-                className="inline-flex flex-row items-center gap-2"
-                href={`http://manifold.markets/${comment.userName}`}
-                target="_blank"
-              >
-                <UserAvatar name={comment.userName} src={comment.userAvatarUrl} />
-                <div className="shrink-0">{comment.userName}</div>
-              </a>
-              <Tiptap content={comment.content} editable={false} className="text-muted-foreground" />
+              <div className="flex flex-row items-center gap-4">
+                <a
+                  className="inline-flex flex-row items-center gap-2"
+                  href={`http://manifold.markets/${comment.userName}`}
+                  target="_blank"
+                >
+                  <UserAvatar name={comment.userName} src={comment.userAvatarUrl} />
+                  <div className="shrink-0">{comment.userName}</div>
+                </a>
+                <div className="text-sm text-muted-foreground">
+                  {new Date(comment.createdTime).toLocaleDateString('en-us', { month: 'short', day: 'numeric' })}
+                </div>
+              </div>
+              <div className="ml-2.5 border-l-2 pl-4">
+                <Tiptap content={comment.content} editable={false} className="text-muted-foreground" />
+              </div>
             </div>
           ))}
         </div>

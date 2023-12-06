@@ -36,6 +36,7 @@ export type Comment = {
   userAvatarUrl: string
   commentId: string
   replyToCommentId?: string
+  createdTime: number
 }
 
 async function fetchApi<T>(path: string, body?: Record<string, string | number>, headers?: Record<string, string>) {

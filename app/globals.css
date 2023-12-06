@@ -58,9 +58,9 @@
   }
 }
 
-.tiptap a {
-  text-decoration: underline;
-  text-underline-offset: 4px;
+p:has(.ProseMirror-trailingBreak) {
+  height: 0 !important;
+  margin-top: 16px;
 }
 
 .comment-creator .tiptap {

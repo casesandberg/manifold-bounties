@@ -40,9 +40,11 @@ export function AddCommentBox() {
           I have finished this
         </Badge>
       </div>
-      <Tiptap placeholder="Write a comment." className="comment-creator border-1 border" />
+      <Tiptap placeholder="Write a comment." className="comment-creator border-1 border focus-within:border-primary" />
       <div className="mt-2 flex flex-row justify-end">
-        <Button>Add Comment</Button>
+        <Button variant="secondary" size="sm">
+          Add Comment
+        </Button>
       </div>
     </div>
   )
