@@ -15,6 +15,53 @@ const config: Config = {
       },
     },
     extend: {
+      typography: {
+        primary: {
+          css: {
+            color: 'hsl(var(--foreground-muted))',
+            a: {
+              color: 'hsl(var(--primary))',
+              code: { color: 'hsl(var(--primary))' },
+            },
+            blockquote: {
+              borderLeftColor: 'hsl(var(--border))',
+              color: 'hsl(var(--foreground))',
+            },
+            code: {
+              color: 'hsl(var(--foreground))',
+            },
+            figure: {
+              figcaption: { color: 'hsl(var(--foreground))' },
+            },
+            h1: { color: 'hsl(var(--foreground))' },
+            h2: { color: 'hsl(var(--foreground))' },
+            h3: { color: 'hsl(var(--foreground))' },
+            h4: { color: 'hsl(var(--foreground))' },
+            hr: { borderColor: 'hsl(var(--border))' },
+            ol: {
+              li: {
+                '&:before': { color: 'hsl(var(--foreground))' },
+              },
+            },
+            strong: { color: 'hsl(var(--foreground))' },
+            thead: {
+              borderBottomColor: 'hsl(var(--border))',
+              color: 'hsl(var(--foreground))',
+            },
+            tbody: {
+              tr: {
+                borderBottomColor: 'hsl(var(--border))',
+              },
+            },
+            ul: {
+              li: {
+                '&:before': { backgroundColor: 'hsl(var(--primary-foreground))' },
+              },
+            },
+          },
+        },
+      },
+
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
