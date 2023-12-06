@@ -3,6 +3,9 @@
 import { useState } from 'react'
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogHeader, DialogTitle } from './ui/Dialog'
 import { Input } from './ui/Input'
+import { Alert, AlertDescription } from './ui/Alert'
+import { InfoCircledIcon } from '@radix-ui/react-icons'
+import { Label } from './ui/Label'
 
 export function AuthDialog({
   isVisible,
@@ -33,7 +36,16 @@ export function AuthDialog({
           </DialogDescription>
         </DialogHeader>
 
-        <Input type="password" placeholder="XXXXXXXX-XXXX..." value={key} onChange={(e) => setKey(e.target.value)} />
+        <Alert>
+          <InfoCircledIcon className="h-5 w-5" />
+          <AlertDescription>
+            We never store your api key on a server, it is only ever stored on your device.
+          </AlertDescription>
+        </Alert>
+
+        <Label>Manifold api key</Label>
+        <Input placeholder="XXXXXXXX-XXXX..." autoComplete="off" value={key} onChange={(e) => setKey(e.target.value)} />
+
         <DialogClose
           onClick={() => {
             onSubmit(key)

@@ -196,8 +196,7 @@ export function CreateBounty() {
                   }}
                   {...rest}
                 >
-                  <TabsList className="grid grid-cols-4">
-                    <TabsTrigger value="10">10</TabsTrigger>
+                  <TabsList className="grid grid-cols-3 font-mono">
                     <TabsTrigger value="100">100</TabsTrigger>
                     <TabsTrigger value="500">500</TabsTrigger>
                     <TabsTrigger value="1000">1000</TabsTrigger>
