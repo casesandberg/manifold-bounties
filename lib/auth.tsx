@@ -1,6 +1,6 @@
 'use client'
 
-import { getCookie, setCookie } from 'cookies-next'
+import { getCookie, setCookie, deleteCookie } from 'cookies-next'
 import { createContext, useContext } from 'react'
 
 const KEY = 'MANIFOLD_AUTH_COOKIE'
@@ -9,6 +9,10 @@ const AuthContext = createContext<{ apiKey: string } | null>(null)
 
 export const setAuthCookie = (value: string) => {
   setCookie(KEY, value)
+}
+
+export const deleteAuthCookie = () => {
+  deleteCookie(KEY)
 }
 
 export const getAuthCookie = () => {

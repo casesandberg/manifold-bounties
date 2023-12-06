@@ -1,7 +1,7 @@
 import { Container } from '@/components/Container'
 import { Logo } from '@/components/Logo'
 import { ThemeModeToggle } from './ThemeModeToggle'
-import { HeartFilledIcon } from '@radix-ui/react-icons'
+import { CardStackPlusIcon } from '@radix-ui/react-icons'
 
 export function Footer() {
   return (
@@ -25,8 +25,9 @@ export function Footer() {
         <p className="text-sm text-muted-foreground">
           <a
             href="https://manifold.markets/case?tab=payments&a=100"
-            className="underline-offset-4 hover:text-foreground hover:underline"
+            className="flex flex-row items-center gap-2 underline-offset-4 hover:text-foreground hover:underline"
           >
+            <CardStackPlusIcon className="inline" />
             Say thanks with mana
           </a>
         </p>

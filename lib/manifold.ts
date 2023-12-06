@@ -40,6 +40,14 @@ export type Comment = {
   createdTime: number
 }
 
+export type User = {
+  id: string
+  name: string
+  username: string
+  avatarUrl: string
+  balance: number
+}
+
 async function fetchApi<T>(path: string, body?: Record<string, string | number>, headers?: Record<string, string>) {
   const res = await fetch(`${MANIFOLD_API}${path}`, {
     method: 'POST',
@@ -80,6 +88,25 @@ async function fetchOldApi<T>(path: string, body?: Record<string, string | numbe
   }
 }
 
+async function getOldApi<T>(path: string, headers?: Record<string, string>) {
+  const res = await fetch(`${MANIFOLD_OLD_API}${path}`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      ...headers,
+    },
+    cache: 'no-store',
+  })
+
+  try {
+    return res.json() as T
+  } catch (error) {
+    console.log(error)
+    throw new Error('API Error')
+  }
+}
+
 export async function getBounties() {
   const bounties = await fetchApi<Array<Bounty>>('/supabasesearchcontracts', {
     contractType: 'BOUNTIED_QUESTION',
@@ -101,6 +128,12 @@ export async function getBountyBySlug(slug: string) {
 export async function getComments(bountyId: string) {
   const bounty = await fetchOldApi<Array<Comment>>(`/comments?contractId=${bountyId}`)
   return bounty
+}
+
+export async function getMe(authKey: string) {
+  return getOldApi<User>(`/me`, {
+    Authorization: `Key ${authKey}`,
+  })
 }
 
 export async function addBounty(bountyId: string, amount: number, authKey: string) {
