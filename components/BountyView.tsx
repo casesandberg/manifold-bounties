@@ -12,6 +12,7 @@ import { UserDisplay } from './UserDisplay'
 import { useMarketBountyMemory } from '@/lib/marketBountyMemory'
 import { Counter } from './Counter'
 import { Badge } from './ui/Badge'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/DropdownMenu'
 
 export type BountyViewProps = {
   bounty: Bounty
@@ -46,13 +47,23 @@ export function BountyView({ bounty, comments }: BountyViewProps) {
     <article className="flex flex-row gap-8">
       <div className="relative w-[150px]">
         <div className="sticky top-8 flex flex-col">
-          <Button variant="outline" size="lg" className="gap-2 font-mono text-xl" onClick={handleBounty(10)}>
-            <Counter value={bountyAmount} height={42} /> <TriangleUpIcon />
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="lg" className="gap-2 font-mono text-xl">
+                <Counter value={bountyAmount} height={42} /> <TriangleUpIcon />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="min-w-26 w-26 font-mono" align="end" forceMount>
+              <DropdownMenuItem onClick={handleBounty(100)}>Add +100</DropdownMenuItem>
+              <DropdownMenuItem onClick={handleBounty(500)}>Add +500</DropdownMenuItem>
+              <DropdownMenuItem onClick={handleBounty(1000)}>Add +1000</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           <div className="bg-border py-1 text-center text-[9px] uppercase">Bounty</div>
 
           <div className="mt-12 flex flex-col gap-2">
-            <Button onClick={handleBounty(1000)} size="sm" className="font-mono">
+            <Button variant="outline" onClick={handleBounty(1000)} size="sm" className="font-mono">
               I NEED IT +1000
             </Button>
             <Button variant="outline" onClick={handleBounty(500)} size="sm" className="font-mono">

@@ -7,6 +7,14 @@ import { Counter } from './Counter'
 import { useAuth } from '@/lib/auth'
 import { addBounty } from '@/lib/manifold'
 import { toast } from './ui/use-toast'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from './ui/DropdownMenu'
 
 export function BountyTableUpvote({ bountyId, initialValue = 0 }: { bountyId: string; initialValue?: number }) {
   const { memory, increment } = useMarketBountyMemory()
@@ -30,8 +38,17 @@ export function BountyTableUpvote({ bountyId, initialValue = 0 }: { bountyId: st
   }
 
   return (
-    <Button variant="outline" size="xs" className="gap-2 font-mono" onClick={handleBounty(10)}>
-      <Counter value={bountyAmount} /> <TriangleUpIcon />
-    </Button>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" size="xs" className="gap-2 font-mono">
+          <Counter value={bountyAmount} /> <TriangleUpIcon />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="min-w-26 w-26 font-mono" align="end" forceMount>
+        <DropdownMenuItem onClick={handleBounty(100)}>Add +100</DropdownMenuItem>
+        <DropdownMenuItem onClick={handleBounty(500)}>Add +500</DropdownMenuItem>
+        <DropdownMenuItem onClick={handleBounty(1000)}>Add +1000</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }
