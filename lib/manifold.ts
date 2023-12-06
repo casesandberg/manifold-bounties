@@ -31,6 +31,7 @@ export type Comment = {
   id: string
   userId: string
   userName: string
+  userUsername: string
   content: Content
   contractSlug: string
   userAvatarUrl: string

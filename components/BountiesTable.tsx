@@ -4,6 +4,7 @@ import { TriangleUpIcon } from '@radix-ui/react-icons'
 import { Button } from './ui/Button'
 import { UserAvatar } from './UserAvatar'
 import Link from 'next/link'
+import { UserDisplay } from './UserDisplay'
 
 export async function BountiesTable() {
   const bounties = await getBounties()
@@ -29,6 +30,7 @@ export async function BountiesTable() {
             creatorAvatarUrl,
             creatorUsername,
             creatorName,
+            creatorId,
             createdTime,
             bountyLeft,
             uniqueBettorCount,
@@ -41,18 +43,20 @@ export async function BountiesTable() {
                     {bountyLeft} <TriangleUpIcon />
                   </Button>
                 </TableCell>
-                <TableCell className="text-base font-medium">
-                  <Link href={`/bounty/${slug}`}>{question} </Link>
+                <TableCell>
+                  <Link href={`/bounty/${slug}`} className="text-base font-medium visited:text-muted-foreground">
+                    {question}
+                  </Link>
                 </TableCell>
                 <TableCell className="text-muted-foreground">
-                  <a
-                    className="flex flex-row items-center gap-2"
-                    href={`http://manifold.markets/${creatorUsername}`}
-                    target="_blank"
-                  >
-                    <UserAvatar name={creatorName} src={creatorAvatarUrl} />
-                    <div className="shrink-0">{creatorName}</div>
-                  </a>
+                  <UserDisplay
+                    user={{
+                      id: creatorId,
+                      name: creatorName,
+                      username: creatorUsername,
+                      avatar: creatorAvatarUrl,
+                    }}
+                  />
                 </TableCell>
                 <TableCell className="text-muted-foreground">
                   {new Date(createdTime).toLocaleDateString('en-us', { month: 'short', day: 'numeric' })}

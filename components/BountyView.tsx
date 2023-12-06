@@ -10,6 +10,7 @@ import { useAuthToken } from '@/lib/auth'
 import { AuthDialog } from './AuthDialog'
 import { useState } from 'react'
 import { useToast } from './ui/use-toast'
+import { UserDisplay } from './UserDisplay'
 
 export type BountyViewProps = {
   bounty: Bounty
@@ -64,14 +65,14 @@ export function BountyView({ bounty, comments }: BountyViewProps) {
       <div>
         <h1 className="text-2xl font-medium">{bounty.question}</h1>
         <div className="flex flex-row gap-6 pt-2 text-sm">
-          <a
-            className="flex flex-row items-center gap-2"
-            href={`http://manifold.markets/${bounty.creatorUsername}`}
-            target="_blank"
-          >
-            <UserAvatar name={bounty.creatorName} src={bounty.creatorAvatarUrl} />
-            <div className="shrink-0">{bounty.creatorName}</div>
-          </a>
+          <UserDisplay
+            user={{
+              id: bounty.creatorId,
+              name: bounty.creatorName,
+              username: bounty.creatorUsername,
+              avatar: bounty.creatorAvatarUrl,
+            }}
+          />
 
           <div className="flex flex-row items-center gap-1">
             <ClockIcon />
@@ -96,14 +97,14 @@ export function BountyView({ bounty, comments }: BountyViewProps) {
           {filteredComments.map((comment) => (
             <div key={comment.id}>
               <div className="flex flex-row items-center gap-4">
-                <a
-                  className="inline-flex flex-row items-center gap-2"
-                  href={`http://manifold.markets/${comment.userName}`}
-                  target="_blank"
-                >
-                  <UserAvatar name={comment.userName} src={comment.userAvatarUrl} />
-                  <div className="shrink-0">{comment.userName}</div>
-                </a>
+                <UserDisplay
+                  user={{
+                    id: comment.userId,
+                    name: comment.userName,
+                    username: comment.userUsername,
+                    avatar: comment.userAvatarUrl,
+                  }}
+                />
                 <div className="text-sm text-muted-foreground">
                   {new Date(comment.createdTime).toLocaleDateString('en-us', { month: 'short', day: 'numeric' })}
                 </div>
