@@ -4,6 +4,16 @@ import { getBountyBySlug, getComments } from '@/lib/manifold'
 import { SyncMarketMemory } from '@/lib/marketBountyMemory'
 import { notFound } from 'next/navigation'
 
+export async function generateMetadata({ params: { slug } }: { params: { slug: string } }) {
+  const bounty = await getBountyBySlug(slug)
+
+  if (bounty && !('error' in bounty)) {
+    return {
+      title: bounty.question,
+    }
+  }
+}
+
 export default async function BountyPage({ params: { slug } }: { params: { slug: string } }) {
   const bounty = await getBountyBySlug(slug)
 
