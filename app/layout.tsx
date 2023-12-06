@@ -11,6 +11,7 @@ import { MarketBountyMemoryContextProvider } from '@/lib/marketBountyMemory'
 import { UserContextProvider } from '@/lib/user'
 import { cookies } from 'next/headers'
 import { getCookie } from 'cookies-next'
+import { Analytics } from '@vercel/analytics/react'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -46,6 +47,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </div>
 
         <Toaster />
+        <Analytics />
       </body>
     </html>
   )
