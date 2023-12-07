@@ -26,7 +26,6 @@ export function BountyView({ bounty, comments }: BountyViewProps) {
   const filteredComments = orderedComments.filter((comment) => !comment.replyToCommentId)
   const { toast } = useToast()
   const { memory, increment } = useMarketBountyMemory()
-  const router = useRouter()
   const bountyAmount = memory[bounty.id] || bounty.bountyLeft
 
   const handleBounty = (amount: number) => () => {
@@ -35,15 +34,20 @@ export function BountyView({ bounty, comments }: BountyViewProps) {
       return
     }
 
-    addBounty(bounty.id, amount).then((bountyRes) => {
-      if (bountyRes && 'success' in bountyRes) {
-        router.refresh()
-        // increment(bountyRes.toId, bountyRes.amount)
+    addBounty(bounty.id, amount)
+      .then(() => {
+        increment(bounty.id, amount)
         toast({
           title: 'Bounty added!',
         })
-      }
-    })
+      })
+      .catch((error) => {
+        toast({
+          title: 'There was an error adding your bounty',
+          description: error.message,
+          variant: 'destructive',
+        })
+      })
   }
 
   return (

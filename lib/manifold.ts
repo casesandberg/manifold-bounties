@@ -1,13 +1,11 @@
 'use server'
 
-// TODO: Refactor this, its a mess
-
 import { Content } from '@tiptap/react'
 import { getCookie } from 'cookies-next'
 import { cookies } from 'next/headers'
 
-const MANIFOLD_API = 'https://api.manifold.markets'
-const MANIFOLD_OLD_API = 'https://manifold.markets/api/v0'
+const MANIFOLD_INTERNAL_API = 'https://api.manifold.markets'
+const MANIFOLD_API = 'https://manifold.markets/api'
 
 export type Bounty = {
   id: string
@@ -53,76 +51,70 @@ export type User = {
   balance: number
 }
 
-async function fetchApi<T>(path: string, body?: Record<string, string | number>, headers?: Record<string, string>) {
+async function fetchInternalApi<T extends object>(
+  method: string,
+  path: string,
+  body?: Record<string, string | number>,
+) {
+  const authKey = getCookie('MANIFOLD_AUTH_COOKIE', { cookies })
+
+  const res = await fetch(`${MANIFOLD_INTERNAL_API}${path}`, {
+    method,
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      ...(authKey ? { Authorization: `Key ${authKey}` } : {}),
+    },
+    body: body ? JSON.stringify(body) : undefined,
+    cache: 'no-store',
+  })
+
+  try {
+    const json = (await res.json()) as T | { error: string } | { message: string }
+    // guard against both manifold error types
+    if ('error' in json) {
+      throw new Error(json.error ?? 'API Error')
+    } else if ('message' in json) {
+      throw new Error(json.message ?? 'API Error')
+    }
+    return json
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}
+
+async function fetchApi<T extends object>(method: string, path: string, body?: Record<string, unknown>) {
   const authKey = getCookie('MANIFOLD_AUTH_COOKIE', { cookies })
 
   const res = await fetch(`${MANIFOLD_API}${path}`, {
-    method: 'POST',
+    method,
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
       ...(authKey ? { Authorization: `Key ${authKey}` } : {}),
-      ...headers,
     },
-    body: JSON.stringify(body),
+    body: body ? JSON.stringify(body) : undefined,
     cache: 'no-store',
   })
 
   try {
-    return res.json() as T
+    const json = (await res.json()) as T | { error: string } | { message: string }
+    // guard against both manifold error types
+    if ('error' in json) {
+      throw new Error(json.error ?? 'API Error')
+    } else if ('message' in json) {
+      throw new Error(json.message ?? 'API Error')
+    }
+    return json
   } catch (error) {
-    console.log(error)
-    throw new Error('API Error')
-  }
-}
-
-async function fetchOldApi<T>(path: string, body?: Record<string, unknown>, headers?: Record<string, string>) {
-  const authKey = getCookie('MANIFOLD_AUTH_COOKIE', { cookies })
-
-  const res = await fetch(`${MANIFOLD_OLD_API}${path}`, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      ...(authKey ? { Authorization: `Key ${authKey}` } : {}),
-      ...headers,
-    },
-    body: JSON.stringify(body),
-    cache: 'no-store',
-  })
-
-  try {
-    return res.json() as T
-  } catch (error) {
-    console.log(error)
-    throw new Error('API Error')
-  }
-}
-
-async function getOldApi<T>(path: string, headers?: Record<string, unknown>) {
-  const authKey = getCookie('MANIFOLD_AUTH_COOKIE', { cookies })
-
-  const res = await fetch(`${MANIFOLD_OLD_API}${path}`, {
-    method: 'GET',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      ...(authKey ? { Authorization: `Key ${authKey}` } : {}),
-      ...headers,
-    },
-    cache: 'no-store',
-  })
-
-  try {
-    return res.json() as T
-  } catch (error) {
-    console.log(error)
-    throw new Error('API Error')
+    console.error(error)
+    throw error
   }
 }
 
 export async function getBounties() {
-  const bounties = await fetchApi<Array<Bounty>>('/supabasesearchcontracts', {
+  return fetchInternalApi<Array<Bounty>>('POST', '/supabasesearchcontracts', {
     contractType: 'BOUNTIED_QUESTION',
     filter: 'open',
     limit: 40,
@@ -131,32 +123,29 @@ export async function getBounties() {
     term: '',
     topicSlug: 'manifoldbountiescom',
   })
-  return bounties
 }
 
 export async function getBountyBySlug(slug: string) {
-  const bounty = await fetchOldApi<Bounty | { error: string }>(`/slug/${slug}`)
-  return bounty
+  return fetchApi<Bounty>('GET', `/v0/slug/${slug}`)
 }
 
 export async function getComments(bountyId: string) {
-  const bounty = await fetchOldApi<Array<Comment>>(`/comments?contractId=${bountyId}`)
-  return bounty
+  return fetchApi<Array<Comment>>('GET', `/v0/comments?contractId=${bountyId}`)
 }
 
 export async function getMe() {
-  return getOldApi<User | { message: string }>(`/me`)
+  return fetchApi<User>('GET', '/v0/me')
 }
 
 export async function addComment(bountyId: string, content: Content) {
-  return fetchOldApi<Array<Comment>>(`/comment`, {
+  return fetchApi<Array<Comment>>('POST', '/v0/comment', {
     contractId: bountyId,
     content,
   })
 }
 
 export async function createBounty(title: string, content: Content, totalBounty: number) {
-  return fetchOldApi<Bounty | { message: string }>(`/market`, {
+  return fetchApi<Bounty>('POST', '/v0/market', {
     outcomeType: 'BOUNTIED_QUESTION',
     question: title,
     descriptionJson: JSON.stringify(content),
@@ -166,14 +155,7 @@ export async function createBounty(title: string, content: Content, totalBounty:
 }
 
 export async function addBounty(bountyId: string, amount: number) {
-  try {
-    return await fetchOldApi<{ amount: number; toId: string } | { success: boolean }>(
-      `/market/${bountyId}/add-bounty`,
-      {
-        amount,
-      },
-    )
-  } catch (error) {
-    console.log(error)
-  }
+  return fetchApi<{ amount: number; toId: string }>('POST', `/v0/market/${bountyId}/add-bounty`, {
+    amount,
+  })
 }

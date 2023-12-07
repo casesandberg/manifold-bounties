@@ -13,7 +13,7 @@ import { createBounty } from '@/lib/manifold'
 import { useRouter } from 'next/navigation'
 import { Alert, AlertDescription, AlertTitle } from './ui/Alert'
 import Link from 'next/link'
-import { CheckCircledIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons'
+import { CheckCircledIcon, ExclamationTriangleIcon, ReloadIcon } from '@radix-ui/react-icons'
 import { useRef, useState } from 'react'
 import { useAuth } from '@/lib/auth'
 
@@ -105,6 +105,7 @@ export function CreateBounty() {
   const { toast } = useToast()
   const editorRef = useRef<EditorRef>(null)
   const [successSlug, setSuccessSlug] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
   const { authKey, requestAuth } = useAuth()
 
   function onSubmit(data: FormSchema) {
@@ -113,25 +114,19 @@ export function CreateBounty() {
       return
     }
 
+    setIsLoading(true)
     createBounty(data.title, data.description, data.amount)
-      .then((res) => {
-        if ('message' in res) {
-          toast({
-            title: 'Error creating bounty',
-            description: res.message,
-            variant: 'destructive',
-          })
-        } else {
-          setSuccessSlug(res.slug)
-
-          editorRef.current?.clear()
-          form.reset()
-        }
+      .then((bounty) => {
+        setIsLoading(false)
+        setSuccessSlug(bounty.slug)
+        editorRef.current?.clear()
+        form.reset()
       })
       .catch((error) => {
+        setIsLoading(false)
         toast({
           title: 'Error creating bounty',
-          description: 'There was an error creating your bounty. Please try again.',
+          description: error.message,
           variant: 'destructive',
         })
       })
@@ -223,7 +218,10 @@ export function CreateBounty() {
         ) : null}
 
         <div className="flex flex-row justify-center">
-          <Button type="submit">Create</Button>
+          <Button type="submit" disabled={isLoading}>
+            {isLoading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
+            Create
+          </Button>
         </div>
 
         {successSlug ? (

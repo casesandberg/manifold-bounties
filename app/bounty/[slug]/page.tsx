@@ -5,27 +5,31 @@ import { SyncMarketMemory } from '@/lib/marketBountyMemory'
 import { notFound } from 'next/navigation'
 
 export async function generateMetadata({ params: { slug } }: { params: { slug: string } }) {
-  const bounty = await getBountyBySlug(slug)
+  try {
+    const bounty = await getBountyBySlug(slug)
 
-  if (bounty && !('error' in bounty)) {
     return {
       title: bounty.question,
+    }
+  } catch (error) {
+    return {
+      title: 'Not found',
     }
   }
 }
 
 export default async function BountyPage({ params: { slug } }: { params: { slug: string } }) {
-  const bounty = await getBountyBySlug(slug)
+  try {
+    const bounty = await getBountyBySlug(slug)
+    const comments = await getComments(bounty.id)
 
-  if ('error' in bounty) {
+    return (
+      <Container>
+        <SyncMarketMemory bounties={[bounty]} />
+        <BountyView bounty={bounty} comments={comments} />
+      </Container>
+    )
+  } catch (error) {
     notFound()
   }
-  const comments = await getComments(bounty.id)
-
-  return (
-    <Container>
-      <SyncMarketMemory bounties={[bounty]} />
-      <BountyView bounty={bounty} comments={comments} />
-    </Container>
-  )
 }

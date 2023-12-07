@@ -14,17 +14,8 @@ export function UserContextProvider({ children }: { children: React.ReactNode })
   useEffect(() => {
     if (authKey && !user) {
       getMe()
-        .then((res) => {
-          if ('message' in res) {
-            toast({
-              title: 'There was an error with your API Key. Please add it again',
-              variant: 'destructive',
-            })
-            clearAuth()
-            requestAuth()
-          } else {
-            setUser(res)
-          }
+        .then((user) => {
+          setUser(user)
         })
         .catch(() => {
           toast({

@@ -29,15 +29,20 @@ export function BountyTableUpvote({ bountyId, initialValue = 0 }: { bountyId: st
       return
     }
 
-    addBounty(bountyId, amount).then((bountyRes) => {
-      if (bountyRes && 'success' in bountyRes) {
-        router.refresh()
-        // increment(bountyRes.toId, bountyRes.amount)
+    addBounty(bountyId, amount)
+      .then(() => {
+        increment(bountyId, amount)
         toast({
           title: 'Bounty added!',
         })
-      }
-    })
+      })
+      .catch((error) => {
+        toast({
+          title: 'There was an error adding your bounty',
+          description: error.message,
+          variant: 'destructive',
+        })
+      })
   }
 
   return (
