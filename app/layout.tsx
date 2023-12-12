@@ -1,7 +1,6 @@
 import { type Metadata } from 'next'
-import { DM_Sans, Inter } from 'next/font/google'
+import { Inter } from 'next/font/google'
 import clsx from 'clsx'
-
 import './globals.css'
 import { ThemeProvider } from '@/components/ThemeProvider'
 import { Layout } from '@/components/Layout'
@@ -12,6 +11,9 @@ import { UserContextProvider } from '@/lib/user'
 import { cookies } from 'next/headers'
 import { getCookie } from 'cookies-next'
 import { Analytics } from '@vercel/analytics/react'
+import SessionProvider from '@/lib/session'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -27,7 +29,8 @@ export const metadata: Metadata = {
   description: '',
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const session = await getServerSession(authOptions)
   const authKey = getCookie('MANIFOLD_AUTH_COOKIE', { cookies })
 
   return (
@@ -35,15 +38,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <body className="flex min-h-full">
         <div className="flex w-full flex-col">
-          <AuthContextProvider initialValue={authKey}>
-            <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-              <UserContextProvider>
-                <MarketBountyMemoryContextProvider>
-                  <Layout>{children}</Layout>
-                </MarketBountyMemoryContextProvider>
-              </UserContextProvider>
-            </ThemeProvider>
-          </AuthContextProvider>
+          <SessionProvider session={session}>
+            <AuthContextProvider initialValue={authKey}>
+              <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+                <UserContextProvider>
+                  <MarketBountyMemoryContextProvider>
+                    <Layout>{children}</Layout>
+                  </MarketBountyMemoryContextProvider>
+                </UserContextProvider>
+              </ThemeProvider>
+            </AuthContextProvider>
+          </SessionProvider>
         </div>
 
         <Toaster />
