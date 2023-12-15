@@ -4,8 +4,7 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from './ui/HoverCard'
 
 export type UserDisplayProps = {
   user: {
-    id: string
-    name: string
+    id: number
     username: string
     avatar: string
   }
@@ -14,15 +13,15 @@ export function UserDisplay({ user }: UserDisplayProps) {
   return (
     <HoverCard>
       <HoverCardTrigger className="inline-flex cursor-pointer flex-row items-center gap-2">
-        <UserAvatar name={user.name} src={user.avatar} />
-        <div className="shrink-0">{user.name}</div>
+        <UserAvatar name={user.username} src={user.avatar} />
+        <div className="shrink-0">{user.username}</div>
       </HoverCardTrigger>
       <HoverCardContent className="flex flex-col">
         <div className="flex flex-row gap-2">
-          <UserAvatar size="xl" name={user.name} src={user.avatar} />
+          <UserAvatar size="xl" name={user.username} src={user.avatar} />
 
           <div className="flex flex-col">
-            <div className="text-lg font-medium">{user.name}</div>
+            <div className="text-lg font-medium">{user.username}</div>
             <div className="text-sm text-muted-foreground">@{user.username}</div>
           </div>
         </div>

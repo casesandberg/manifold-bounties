@@ -33,10 +33,10 @@ export function Header() {
         </div>
 
         <div className="flex grow flex-row items-center justify-end gap-2 sm:gap-4">
-          <Button variant="outline" size="sm" onClick={() => router.push('/create')}>
+          {/* <Button variant="outline" size="sm" onClick={() => router.push('/create')}>
             <span className="hidden sm:block">Create Proposal</span>
             <span className="block sm:hidden">Create</span>
-          </Button>
+          </Button> */}
 
           {status === 'authenticated' ? (
             <DropdownMenu>

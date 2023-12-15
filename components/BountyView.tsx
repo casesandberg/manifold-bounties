@@ -1,32 +1,30 @@
 'use client'
 
 import _ from 'lodash'
-import { Bounty, Comment, addBounty } from '@/lib/manifold'
 import { Button } from './ui/Button'
 import { ClockIcon, ExternalLinkIcon, TriangleUpIcon } from '@radix-ui/react-icons'
 import Tiptap from './Tiptap'
-import { AddCommentBox } from './AddCommentBox'
 import { useAuth } from '@/lib/auth'
 import { useToast } from './ui/use-toast'
 import { UserDisplay } from './UserDisplay'
 import { useMarketBountyMemory } from '@/lib/marketBountyMemory'
 import { Counter } from './Counter'
-import { Badge } from './ui/Badge'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/DropdownMenu'
-import { useRouter } from 'next/navigation'
+import { Comment, Issue } from '@/lib/github'
+import { addBounty } from '@/lib/beeminder'
 
 export type BountyViewProps = {
-  bounty: Bounty
+  issue: Issue
   comments: Array<Comment>
 }
 
-export function BountyView({ bounty, comments }: BountyViewProps) {
+export function BountyView({ issue, comments }: BountyViewProps) {
   const { authKey, requestAuth } = useAuth()
   const orderedComments = _.orderBy(comments, 'createdTime', 'asc')
-  const filteredComments = orderedComments.filter((comment) => !comment.replyToCommentId)
+  const filteredComments = orderedComments
   const { toast } = useToast()
   const { memory, increment } = useMarketBountyMemory()
-  const bountyAmount = memory[bounty.id] || bounty.bountyLeft
+  const bountyAmount = memory[issue.id] || 1
 
   const handleBounty = (amount: number) => () => {
     if (!authKey) {
@@ -34,9 +32,9 @@ export function BountyView({ bounty, comments }: BountyViewProps) {
       return
     }
 
-    addBounty(bounty.id, amount)
+    addBounty(issue.id, amount)
       .then(() => {
-        increment(bounty.id, amount)
+        increment(issue.id, amount)
         toast({
           title: 'Bounty added!',
         })
@@ -83,33 +81,32 @@ export function BountyView({ bounty, comments }: BountyViewProps) {
         </div>
       </div>
       <div>
-        <h1 className="text-2xl font-medium">{bounty.question}</h1>
+        <h1 className="text-2xl font-medium">{issue.title}</h1>
         <div className="flex flex-row gap-6 pt-2 text-sm">
           <UserDisplay
             user={{
-              id: bounty.creatorId,
-              name: bounty.creatorName,
-              username: bounty.creatorUsername,
-              avatar: bounty.creatorAvatarUrl,
+              id: issue.id,
+              username: issue.user.login,
+              avatar: issue.user.avatar_url,
             }}
           />
 
           <div className="flex flex-row items-center gap-1">
             <ClockIcon />
-            {new Date(bounty.createdTime).toLocaleDateString('en-us', { month: 'short', day: 'numeric' })}
+            {new Date(issue.created_at).toLocaleDateString('en-us', { month: 'short', day: 'numeric' })}
           </div>
 
           <a
             className="flex flex-row items-center gap-1 underline-offset-4 hover:text-foreground hover:underline"
-            href={bounty.url}
+            href={issue.html_url}
             target="_blank"
           >
-            Manifold
+            Gitub
             <ExternalLinkIcon />
           </a>
         </div>
 
-        <Tiptap content={bounty.description} editable={false} className="[& a]:opacity-0 mt-4 text-muted-foreground" />
+        <Tiptap content={issue.body} editable={false} className="[& a]:opacity-0 mt-4 text-muted-foreground" />
 
         <h3 className="mt-12 text-xl font-medium">Comments</h3>
 
@@ -119,30 +116,29 @@ export function BountyView({ bounty, comments }: BountyViewProps) {
               <div className="flex flex-row items-center gap-4">
                 <UserDisplay
                   user={{
-                    id: comment.userId,
-                    name: comment.userName,
-                    username: comment.userUsername,
-                    avatar: comment.userAvatarUrl,
+                    id: comment.user.id,
+                    username: comment.user.login,
+                    avatar: comment.user.avatar_url,
                   }}
                 />
                 <div className="text-sm text-muted-foreground">
-                  {new Date(comment.createdTime).toLocaleDateString('en-us', { month: 'short', day: 'numeric' })}
+                  {new Date(comment.created_at).toLocaleDateString('en-us', { month: 'short', day: 'numeric' })}
                 </div>
 
-                {comment.bountyAwarded ? (
+                {/* {comment.bountyAwarded ? (
                   <Badge variant="default" className="font-mono uppercase">
                     {comment.bountyAwarded} awarded
                   </Badge>
-                ) : null}
+                ) : null} */}
               </div>
               <div className="ml-2.5 border-l-2 pl-4">
-                <Tiptap content={comment.content} editable={false} className="text-muted-foreground" />
+                <Tiptap content={comment.body} editable={false} className="text-muted-foreground" />
               </div>
             </div>
           ))}
         </div>
 
-        <AddCommentBox bountyId={bounty.id} />
+        {/* <AddCommentBox bountyId={bounty.id} /> */}
       </div>
     </article>
   )

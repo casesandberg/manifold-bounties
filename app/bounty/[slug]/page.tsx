@@ -1,15 +1,15 @@
 import { BountyView } from '@/components/BountyView'
 import { Container } from '@/components/Container'
-import { getBountyBySlug, getComments } from '@/lib/manifold'
+import { getComments, getIssueByNumber } from '@/lib/github'
 import { SyncMarketMemory } from '@/lib/marketBountyMemory'
 import { notFound } from 'next/navigation'
 
 export async function generateMetadata({ params: { slug } }: { params: { slug: string } }) {
   try {
-    const bounty = await getBountyBySlug(slug)
+    const issue = await getIssueByNumber('beeminder/apidocs', parseInt(slug))
 
     return {
-      title: bounty.question,
+      title: issue.title,
     }
   } catch (error) {
     return {
@@ -20,13 +20,13 @@ export async function generateMetadata({ params: { slug } }: { params: { slug: s
 
 export default async function BountyPage({ params: { slug } }: { params: { slug: string } }) {
   try {
-    const bounty = await getBountyBySlug(slug)
-    const comments = await getComments(bounty.id)
+    const issue = await getIssueByNumber('beeminder/apidocs', parseInt(slug))
+    const comments = await getComments('beeminder/apidocs', parseInt(slug))
 
     return (
       <Container>
-        <SyncMarketMemory bounties={[bounty]} />
-        <BountyView bounty={bounty} comments={comments} />
+        <SyncMarketMemory bounties={[issue]} />
+        <BountyView issue={issue} comments={comments} />
       </Container>
     )
   } catch (error) {

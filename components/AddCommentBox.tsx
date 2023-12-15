@@ -6,7 +6,6 @@ import { Badge } from './ui/Badge'
 import { Button } from './ui/Button'
 import { Content } from '@tiptap/react'
 import { useAuth } from '@/lib/auth'
-import { addComment } from '@/lib/manifold'
 import { useRouter } from 'next/navigation'
 import { ReloadIcon } from '@radix-ui/react-icons'
 import { toast } from './ui/use-toast'
@@ -53,20 +52,20 @@ export function AddCommentBox({ bountyId }: { bountyId: string }) {
       })
     }
 
-    addComment(bountyId, content)
-      .then(() => {
-        editorRef.current?.clear()
-        router.refresh()
-        setIsLoading(false)
-      })
-      .catch((error) => {
-        toast({
-          title: 'There was an error adding your comment. Please try again.',
-          variant: 'destructive',
-          description: error.message,
-        })
-        setIsLoading(false)
-      })
+    // addComment(bountyId, content)
+    //   .then(() => {
+    //     editorRef.current?.clear()
+    //     router.refresh()
+    //     setIsLoading(false)
+    //   })
+    //   .catch((error) => {
+    //     toast({
+    //       title: 'There was an error adding your comment. Please try again.',
+    //       variant: 'destructive',
+    //       description: error.message,
+    //     })
+    //     setIsLoading(false)
+    //   })
   }
 
   return (

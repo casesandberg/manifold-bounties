@@ -9,7 +9,6 @@ import { useToast } from './ui/use-toast'
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from './ui/Form'
 import { Button } from './ui/Button'
 import { Tabs, TabsList, TabsTrigger } from './ui/Tabs'
-import { createBounty } from '@/lib/manifold'
 import { useRouter } from 'next/navigation'
 import { Alert, AlertDescription, AlertTitle } from './ui/Alert'
 import Link from 'next/link'
@@ -115,21 +114,21 @@ export function CreateBounty() {
     }
 
     setIsLoading(true)
-    createBounty(data.title, data.description, data.amount)
-      .then((bounty) => {
-        setIsLoading(false)
-        setSuccessSlug(bounty.slug)
-        editorRef.current?.clear()
-        form.reset()
-      })
-      .catch((error) => {
-        setIsLoading(false)
-        toast({
-          title: 'Error creating bounty',
-          description: error.message,
-          variant: 'destructive',
-        })
-      })
+    // createBounty(data.title, data.description, data.amount)
+    //   .then((bounty) => {
+    //     setIsLoading(false)
+    //     setSuccessSlug(bounty.slug)
+    //     editorRef.current?.clear()
+    //     form.reset()
+    //   })
+    //   .catch((error) => {
+    //     setIsLoading(false)
+    //     toast({
+    //       title: 'Error creating bounty',
+    //       description: error.message,
+    //       variant: 'destructive',
+    //     })
+    //   })
   }
 
   return (

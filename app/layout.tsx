@@ -7,7 +7,6 @@ import { Layout } from '@/components/Layout'
 import { AuthContextProvider } from '@/lib/auth'
 import { Toaster } from '@/components/ui/Toaster'
 import { MarketBountyMemoryContextProvider } from '@/lib/marketBountyMemory'
-import { UserContextProvider } from '@/lib/user'
 import { cookies } from 'next/headers'
 import { getCookie } from 'cookies-next'
 import { Analytics } from '@vercel/analytics/react'
@@ -41,11 +40,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <SessionProvider session={session}>
             <AuthContextProvider initialValue={authKey}>
               <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-                <UserContextProvider>
-                  <MarketBountyMemoryContextProvider>
-                    <Layout>{children}</Layout>
-                  </MarketBountyMemoryContextProvider>
-                </UserContextProvider>
+                <MarketBountyMemoryContextProvider>
+                  <Layout>{children}</Layout>
+                </MarketBountyMemoryContextProvider>
               </ThemeProvider>
             </AuthContextProvider>
           </SessionProvider>

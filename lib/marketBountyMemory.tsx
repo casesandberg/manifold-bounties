@@ -8,7 +8,7 @@ type MarketBountyMemory = Record<string, number>
 const MarketBountyMemoryContext = createContext<{
   memory: MarketBountyMemory
   setMemory: (memory: MarketBountyMemory) => void
-  increment: (marketId: string, amount: number) => void
+  increment: (marketId: string | number, amount: number) => void
 } | null>(null)
 
 export function MarketBountyMemoryContextProvider({ children }: { children: React.ReactNode }) {
@@ -18,7 +18,7 @@ export function MarketBountyMemoryContextProvider({ children }: { children: Reac
     memory,
     setMemory: useCallback((memory: MarketBountyMemory) => setMemory((prev) => ({ ...prev, ...memory })), []),
     increment: useCallback(
-      (marketId: string, amount: number) =>
+      (marketId: string | number, amount: number) =>
         setMemory((prev) => ({ ...prev, [marketId]: (prev[marketId] || 0) + amount })),
       [],
     ),

@@ -5,23 +5,14 @@ import { Button } from './ui/Button'
 import { useMarketBountyMemory } from '@/lib/marketBountyMemory'
 import { Counter } from './Counter'
 import { useAuth } from '@/lib/auth'
-import { addBounty } from '@/lib/manifold'
 import { toast } from './ui/use-toast'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from './ui/DropdownMenu'
-import { useRouter } from 'next/navigation'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/DropdownMenu'
+import { addBounty } from '@/lib/beeminder'
 
-export function BountyTableUpvote({ bountyId, initialValue = 0 }: { bountyId: string; initialValue?: number }) {
+export function BountyTableUpvote({ issueId, initialValue = 0 }: { issueId: number; initialValue?: number }) {
   const { memory, increment } = useMarketBountyMemory()
   const { authKey, requestAuth } = useAuth()
-  const bountyAmount = memory[bountyId] || initialValue
-  const router = useRouter()
+  const bountyAmount = memory[issueId] || initialValue
 
   const handleBounty = (amount: number) => () => {
     if (!authKey) {
@@ -29,9 +20,9 @@ export function BountyTableUpvote({ bountyId, initialValue = 0 }: { bountyId: st
       return
     }
 
-    addBounty(bountyId, amount)
+    addBounty(issueId, amount)
       .then(() => {
-        increment(bountyId, amount)
+        increment(issueId, amount)
         toast({
           title: 'Bounty added!',
         })
