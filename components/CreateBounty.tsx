@@ -14,7 +14,6 @@ import { Alert, AlertDescription, AlertTitle } from './ui/Alert'
 import Link from 'next/link'
 import { CheckCircledIcon, ExclamationTriangleIcon, ReloadIcon } from '@radix-ui/react-icons'
 import { useRef, useState } from 'react'
-import { useAuth } from '@/lib/auth'
 
 const INITIAL_TEMPLATE = {
   type: 'doc',
@@ -105,14 +104,8 @@ export function CreateBounty() {
   const editorRef = useRef<EditorRef>(null)
   const [successSlug, setSuccessSlug] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const { authKey, requestAuth } = useAuth()
 
   function onSubmit(data: FormSchema) {
-    if (!authKey) {
-      requestAuth()
-      return
-    }
-
     setIsLoading(true)
     // createBounty(data.title, data.description, data.amount)
     //   .then((bounty) => {

@@ -4,7 +4,6 @@ import _ from 'lodash'
 import { Button } from './ui/Button'
 import { ClockIcon, ExternalLinkIcon, TriangleUpIcon } from '@radix-ui/react-icons'
 import Tiptap from './Tiptap'
-import { useAuth } from '@/lib/auth'
 import { useToast } from './ui/use-toast'
 import { UserDisplay } from './UserDisplay'
 import { useMarketBountyMemory } from '@/lib/marketBountyMemory'
@@ -19,7 +18,6 @@ export type BountyViewProps = {
 }
 
 export function BountyView({ issue, comments }: BountyViewProps) {
-  const { authKey, requestAuth } = useAuth()
   const orderedComments = _.orderBy(comments, 'createdTime', 'asc')
   const filteredComments = orderedComments
   const { toast } = useToast()
@@ -27,11 +25,6 @@ export function BountyView({ issue, comments }: BountyViewProps) {
   const bountyAmount = memory[issue.id] || 1
 
   const handleBounty = (amount: number) => () => {
-    if (!authKey) {
-      requestAuth()
-      return
-    }
-
     addBounty(issue.id, amount)
       .then(() => {
         increment(issue.id, amount)

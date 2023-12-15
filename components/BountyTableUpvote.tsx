@@ -4,22 +4,15 @@ import { TriangleUpIcon } from '@radix-ui/react-icons'
 import { Button } from './ui/Button'
 import { useMarketBountyMemory } from '@/lib/marketBountyMemory'
 import { Counter } from './Counter'
-import { useAuth } from '@/lib/auth'
 import { toast } from './ui/use-toast'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/DropdownMenu'
 import { addBounty } from '@/lib/beeminder'
 
 export function BountyTableUpvote({ issueId, initialValue = 0 }: { issueId: number; initialValue?: number }) {
   const { memory, increment } = useMarketBountyMemory()
-  const { authKey, requestAuth } = useAuth()
   const bountyAmount = memory[issueId] || initialValue
 
   const handleBounty = (amount: number) => () => {
-    if (!authKey) {
-      requestAuth()
-      return
-    }
-
     addBounty(issueId, amount)
       .then(() => {
         increment(issueId, amount)

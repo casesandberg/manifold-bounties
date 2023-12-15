@@ -4,11 +4,8 @@ import clsx from 'clsx'
 import './globals.css'
 import { ThemeProvider } from '@/components/ThemeProvider'
 import { Layout } from '@/components/Layout'
-import { AuthContextProvider } from '@/lib/auth'
 import { Toaster } from '@/components/ui/Toaster'
 import { MarketBountyMemoryContextProvider } from '@/lib/marketBountyMemory'
-import { cookies } from 'next/headers'
-import { getCookie } from 'cookies-next'
 import { Analytics } from '@vercel/analytics/react'
 import SessionProvider from '@/lib/session'
 import { getServerSession } from 'next-auth'
@@ -30,7 +27,6 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const session = await getServerSession(authOptions)
-  const authKey = getCookie('MANIFOLD_AUTH_COOKIE', { cookies })
 
   return (
     <html lang="en" className={clsx('h-full bg-white antialiased', inter.variable)} suppressHydrationWarning>
@@ -38,13 +34,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body className="flex min-h-full">
         <div className="flex w-full flex-col">
           <SessionProvider session={session}>
-            <AuthContextProvider initialValue={authKey}>
-              <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-                <MarketBountyMemoryContextProvider>
-                  <Layout>{children}</Layout>
-                </MarketBountyMemoryContextProvider>
-              </ThemeProvider>
-            </AuthContextProvider>
+            <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+              <MarketBountyMemoryContextProvider>
+                <Layout>{children}</Layout>
+              </MarketBountyMemoryContextProvider>
+            </ThemeProvider>
           </SessionProvider>
         </div>
 

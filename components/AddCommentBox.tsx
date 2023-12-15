@@ -5,7 +5,6 @@ import Tiptap, { EditorRef } from './Tiptap'
 import { Badge } from './ui/Badge'
 import { Button } from './ui/Button'
 import { Content } from '@tiptap/react'
-import { useAuth } from '@/lib/auth'
 import { useRouter } from 'next/navigation'
 import { ReloadIcon } from '@radix-ui/react-icons'
 import { toast } from './ui/use-toast'
@@ -14,16 +13,10 @@ export function AddCommentBox({ bountyId }: { bountyId: string }) {
   const [isLoading, setIsLoading] = useState(false)
   const [content, setContent] = useState<Content>({})
   const [activeTags, setActiveTags] = useState<string>('')
-  const { authKey, requestAuth } = useAuth()
   const router = useRouter()
   const editorRef = useRef<EditorRef>(null)
 
   const handleAddComment = () => {
-    if (!authKey) {
-      requestAuth()
-      return
-    }
-
     setIsLoading(true)
 
     if (activeTags && content && typeof content !== 'string' && 'content' in content) {
