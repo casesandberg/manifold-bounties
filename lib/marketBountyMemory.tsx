@@ -1,7 +1,7 @@
 'use client'
 
 import { createContext, useCallback, useContext, useEffect, useState } from 'react'
-import { Bounty } from './manifold'
+import { Issue } from './github'
 
 type MarketBountyMemory = Record<string, number>
 
@@ -36,11 +36,11 @@ export function useMarketBountyMemory() {
   return context
 }
 
-export function SyncMarketMemory({ bounties }: { bounties: Array<Bounty> }) {
+export function SyncMarketMemory({ bounties }: { bounties: Array<Issue> }) {
   const { setMemory } = useMarketBountyMemory()
 
   useEffect(() => {
-    setMemory(bounties.reduce((acc, bounty) => ({ ...acc, [bounty.id]: bounty.bountyLeft }), {}))
+    setMemory(bounties.reduce((acc, bounty) => ({ ...acc, [bounty.id]: 1 }), {}))
   }, [bounties, setMemory])
 
   return null

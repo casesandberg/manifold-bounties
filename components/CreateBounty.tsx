@@ -197,18 +197,6 @@ export function CreateBounty() {
           )}
         />
 
-        {!authKey ? (
-          <Alert>
-            <ExclamationTriangleIcon className="mt-1 h-5 w-5" />
-            <AlertTitle className="mb-0 flex flex-row items-center">
-              Add your Manifold api key to continue
-              <Button size="xs" className="ml-auto" onClick={requestAuth}>
-                Add Api Key
-              </Button>
-            </AlertTitle>
-          </Alert>
-        ) : null}
-
         <div className="flex flex-row justify-center">
           <Button type="submit" disabled={isLoading}>
             {isLoading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}

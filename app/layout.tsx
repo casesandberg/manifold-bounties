@@ -9,7 +9,7 @@ import { MarketBountyMemoryContextProvider } from '@/lib/marketBountyMemory'
 import { Analytics } from '@vercel/analytics/react'
 import SessionProvider from '@/lib/session'
 import { getServerSession } from 'next-auth'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { authOptions } from '@/lib/auth'
 
 const inter = Inter({
   subsets: ['latin'],
